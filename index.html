@@ -4,22 +4,280 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jeremy LE NEZET</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b0f14;
+      color: #e6edf3;
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+
+    a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 60px;
+    }
+
+    .tag {
+      color: #7ee787;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      font-size: 20px;
+      color: #9da7b3;
+      max-width: 720px;
+    }
+
+    .links {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      border: 1px solid #30363d;
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: #161b22;
+      color: #e6edf3;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #21262d;
+      text-decoration: none;
+    }
+
+    section {
+      margin-bottom: 56px;
+    }
+
+    h2 {
+      font-size: 26px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #30363d;
+      padding-bottom: 8px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 22px;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .card p {
+      color: #9da7b3;
+      margin-bottom: 14px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .tag-pill {
+      font-size: 13px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      color: #c9d1d9;
+    }
+
+    footer {
+      margin-top: 70px;
+      color: #7d8590;
+      font-size: 14px;
+      border-top: 1px solid #30363d;
+      padding-top: 20px;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 36px;
+      }
+
+      .subtitle {
+        font-size: 17px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Jeremy LE NEZET</h1>
-  <p>Blockchain Security • Cryptography • Zero-Knowledge Proofs</p>
+  <div class="container">
+    <header>
+      <p class="tag">Blockchain Security • Cryptography • Zero-Knowledge</p>
+      <h1>Jeremy LE NEZET</h1>
+      <p class="subtitle">
+        Student at 42 Paris focused on smart contract security, applied cryptography,
+        Ethereum, Rust tooling, and zero-knowledge proof systems.
+      </p>
 
-  <h2>Featured Projects</h2>
-  <ul>
-    <li>EVM Scan — Rust CLI for Ethereum contract inspection</li>
-    <li>Smart Contract Audit Agent — Slither + Foundry + AI-assisted findings</li>
-    <li>CTF Writeups — Crypto, RSA, ECDSA, commitments</li>
-  </ul>
+      <div class="links">
+        <a class="btn" href="https://github.com/jerem0010" target="_blank">GitHub</a>
+        <a class="btn" href="https://www.linkedin.com/in/jeremy-le-nezet/" target="_blank">LinkedIn</a>
+        <a class="btn" href="./Jeremy_LENEZET_CV.pdf" target="_blank">Resume</a>
+        <a class="btn" href="#writeups">CTF Writeups</a>
+      </div>
+    </header>
 
-  <h2>Links</h2>
-  <ul>
-    <li><a href="https://github.com/jerem0010">GitHub</a></li>
-    <li><a href="https://www.linkedin.com/in/jeremy-le-nezet/">LinkedIn</a></li>
-  </ul>
+    <section>
+      <h2>Featured Projects</h2>
+
+      <div class="grid">
+        <div class="card">
+          <h3>EVM Scan</h3>
+          <p>
+            Rust CLI for inspecting Ethereum smart contracts, fetching bytecode,
+            extracting function selectors, resolving signatures, and interacting with contracts.
+          </p>
+          <div class="tags">
+            <span class="tag-pill">Rust</span>
+            <span class="tag-pill">Ethereum</span>
+            <span class="tag-pill">Foundry</span>
+            <span class="tag-pill">EVM</span>
+          </div>
+          <a href="https://github.com/jerem0010/evm-scan" target="_blank">View project →</a>
+        </div>
+
+        <div class="card">
+          <h3>Smart Contract Audit Agent</h3>
+          <p>
+            Experimental audit pipeline combining Slither, Foundry, structured findings,
+            and report generation for Solidity repositories.
+          </p>
+          <div class="tags">
+            <span class="tag-pill">Solidity</span>
+            <span class="tag-pill">Python</span>
+            <span class="tag-pill">Slither</span>
+            <span class="tag-pill">Security</span>
+          </div>
+          <a href="https://github.com/jerem0010/smart-contract-audit-agent" target="_blank">View project →</a>
+        </div>
+
+        <div class="card">
+          <h3>ZK Experiments</h3>
+          <p>
+            Circom and Noir experiments around commitments, Merkle proofs,
+            nullifiers, private voting, and anonymous authentication.
+          </p>
+          <div class="tags">
+            <span class="tag-pill">Noir</span>
+            <span class="tag-pill">Circom</span>
+            <span class="tag-pill">ZK</span>
+            <span class="tag-pill">Cryptography</span>
+          </div>
+          <a href="https://github.com/jerem0010" target="_blank">View repositories →</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="writeups">
+      <h2>CTF Writeups</h2>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Crypto Writeups</h3>
+          <p>
+            Writeups focused on RSA, ECDSA, elliptic curves, commitments,
+            modular arithmetic, and signature vulnerabilities.
+          </p>
+          <div class="tags">
+            <span class="tag-pill">Crypto</span>
+            <span class="tag-pill">RSA</span>
+            <span class="tag-pill">ECDSA</span>
+            <span class="tag-pill">CTF</span>
+          </div>
+          <a href="https://github.com/jerem0010/ctf-writeups" target="_blank">Read writeups →</a>
+        </div>
+
+        <div class="card">
+          <h3>Security Notes</h3>
+          <p>
+            Personal notes and explanations about smart contract vulnerabilities,
+            cryptographic primitives, and blockchain security concepts.
+          </p>
+          <div class="tags">
+            <span class="tag-pill">Research</span>
+            <span class="tag-pill">Security</span>
+            <span class="tag-pill">Notes</span>
+          </div>
+          <a href="https://github.com/jerem0010" target="_blank">View GitHub →</a>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Skills</h2>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Smart Contract Security</h3>
+          <p>Solidity, Foundry, Slither, EVM internals, proxies, storage, access control, reentrancy.</p>
+        </div>
+
+        <div class="card">
+          <h3>Cryptography</h3>
+          <p>RSA, ECDSA, elliptic curves, commitments, Merkle trees, modular arithmetic.</p>
+        </div>
+
+        <div class="card">
+          <h3>Zero-Knowledge</h3>
+          <p>Noir, Circom, Barretenberg, SNARKs, nullifiers, private voting, anonymous proofs.</p>
+        </div>
+
+        <div class="card">
+          <h3>Programming</h3>
+          <p>Rust, Solidity, Python, C, C++, JavaScript, Bash, Git, Linux.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Built with HTML/CSS and hosted on GitHub Pages.</p>
+    </footer>
+  </div>
 </body>
 </html>
