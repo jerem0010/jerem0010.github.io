@@ -3,281 +3,1192 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jeremy LE NEZET</title>
+  <meta name="description" content="Jeremy LE NEZET — Blockchain Security, Smart Contract Auditing, Cryptography and Zero-Knowledge systems portfolio." />
+  <meta name="theme-color" content="#070812" />
+
+  <meta property="og:title" content="Jeremy LE NEZET — Blockchain Security & ZK" />
+  <meta property="og:description" content="Portfolio focused on EVM/Solana security, audit tooling, cryptography, CTFs and zero-knowledge systems." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://jerem0010.github.io/" />
+
+  <title>Jeremy LE NEZET — Blockchain Security & ZK</title>
+
   <style>
+    :root {
+      --bg: #070812;
+      --bg-soft: #0d1020;
+      --bg-card: rgba(15, 19, 38, 0.72);
+      --text: #f5f7ff;
+      --muted: #aab3d5;
+      --muted-2: #7781a8;
+      --line: rgba(255, 255, 255, 0.12);
+      --cyan: #42f8f5;
+      --violet: #9b5cff;
+      --pink: #ff4ecd;
+      --green: #7cffc4;
+      --yellow: #f9dc5c;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --max-width: 1180px;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #0b0f14;
-      color: #e6edf3;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 15% 5%, rgba(66, 248, 245, 0.16), transparent 30%),
+        radial-gradient(circle at 85% 0%, rgba(155, 92, 255, 0.20), transparent 28%),
+        radial-gradient(circle at 50% 100%, rgba(255, 78, 205, 0.11), transparent 34%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.6;
-      padding: 40px 20px;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: linear-gradient(to bottom, black, transparent 86%);
+      z-index: -3;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(115deg, transparent 0%, rgba(66, 248, 245, 0.06) 45%, transparent 60%);
+      transform: translateX(-45%);
+      animation: scan 8s ease-in-out infinite alternate;
+      z-index: -2;
+    }
+
+    @keyframes scan {
+      to { transform: translateX(45%); }
     }
 
     a {
-      color: #58a6ff;
+      color: inherit;
       text-decoration: none;
     }
 
-    a:hover {
-      text-decoration: underline;
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.16;
+      z-index: -1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
     }
 
     .container {
-      max-width: 950px;
-      margin: 0 auto;
+      width: min(100% - 40px, var(--max-width));
+      margin-inline: auto;
     }
 
-    header {
-      margin-bottom: 60px;
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(20px);
+      background: rgba(7, 8, 18, 0.68);
+      border-bottom: 1px solid var(--line);
     }
 
-    .tag {
-      color: #7ee787;
-      font-size: 14px;
-      margin-bottom: 12px;
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 74px;
+      gap: 22px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(66, 248, 245, 0.35);
+      border-radius: 14px;
+      background:
+        linear-gradient(135deg, rgba(66, 248, 245, 0.18), rgba(155, 92, 255, 0.16)),
+        rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 38px rgba(66, 248, 245, 0.14);
+      color: var(--cyan);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    .brand small {
+      display: block;
+      color: var(--muted-2);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      font-size: 0.74rem;
+      margin-top: -3px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      display: inline-flex;
+      padding: 10px 13px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      transition: 180ms ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--text);
+      background: rgba(255,255,255,0.07);
+      outline: none;
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .hero {
+      position: relative;
+      padding: 92px 0 64px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.18fr 0.82fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 13px;
+      margin-bottom: 20px;
+      color: var(--green);
+      background: rgba(124, 255, 196, 0.08);
+      border: 1px solid rgba(124, 255, 196, 0.20);
+      border-radius: 999px;
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .pulse {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--green);
+      box-shadow: 0 0 0 0 rgba(124, 255, 196, 0.55);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      70% { box-shadow: 0 0 0 12px rgba(124, 255, 196, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(124, 255, 196, 0); }
     }
 
     h1 {
-      font-size: 48px;
-      margin-bottom: 12px;
+      max-width: 880px;
+      font-size: clamp(3.1rem, 8vw, 7.7rem);
+      line-height: 0.88;
+      letter-spacing: -0.08em;
+      margin-bottom: 24px;
     }
 
-    .subtitle {
-      font-size: 20px;
-      color: #9da7b3;
+    .gradient-text {
+      display: inline-block;
+      background: linear-gradient(92deg, var(--cyan), var(--violet) 50%, var(--pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 55px rgba(155, 92, 255, 0.20);
+    }
+
+    .hero p {
       max-width: 720px;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      margin-bottom: 28px;
     }
 
-    .links {
-      margin-top: 28px;
+    .hero-actions,
+    .contact-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 13px;
+      align-items: center;
     }
 
     .btn {
-      border: 1px solid #30363d;
-      padding: 10px 16px;
-      border-radius: 8px;
-      background: #161b22;
-      color: #e6edf3;
-      font-weight: bold;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 18px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      color: #02040a;
+      background: linear-gradient(92deg, var(--cyan), var(--green));
+      font-weight: 800;
+      box-shadow: 0 14px 44px rgba(66, 248, 245, 0.18);
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
     }
 
     .btn:hover {
-      background: #21262d;
-      text-decoration: none;
+      transform: translateY(-2px);
+      box-shadow: 0 18px 58px rgba(66, 248, 245, 0.26);
     }
 
-    section {
-      margin-bottom: 56px;
+    .btn.secondary {
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+      border-color: var(--line);
+      box-shadow: none;
+    }
+
+    .btn.secondary:hover {
+      border-color: rgba(66, 248, 245, 0.34);
+      background: rgba(66, 248, 245, 0.08);
+    }
+
+    .terminal-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
+        rgba(13, 16, 32, 0.78);
+      box-shadow: var(--shadow);
+    }
+
+    .terminal-card::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      background: linear-gradient(135deg, rgba(66,248,245,0.45), transparent 35%, rgba(255,78,205,0.35));
+      opacity: 0.24;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .terminal-head {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(0,0,0,0.18);
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 99px;
+      background: var(--muted-2);
+    }
+    .dot:nth-child(1) { background: #ff5f57; }
+    .dot:nth-child(2) { background: #ffbd2e; }
+    .dot:nth-child(3) { background: #28c840; }
+
+    .terminal-body {
+      position: relative;
+      z-index: 1;
+      padding: 24px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.92rem;
+      color: #dce5ff;
+    }
+
+    .line {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .line:last-child { border-bottom: 0; }
+    .key { color: var(--cyan); }
+    .value { color: var(--muted); }
+    .value strong { color: var(--text); }
+
+    .chain {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+      padding: 14px;
+      border: 1px solid rgba(66,248,245,0.16);
+      border-radius: var(--radius-md);
+      background: rgba(66,248,245,0.06);
+    }
+
+    .block {
+      flex: 1;
+      min-height: 62px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.11);
+      background: rgba(255,255,255,0.05);
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .arrow { color: var(--muted-2); }
+
+    .section {
+      padding: 72px 0;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .section-kicker {
+      color: var(--cyan);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
     }
 
     h2 {
-      font-size: 26px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #30363d;
-      padding-bottom: 8px;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
     }
 
-    .grid {
+    .section-heading p {
+      max-width: 520px;
+      color: var(--muted);
+    }
+
+    .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .stat-card,
+    .project-card,
+    .skill-card,
+    .timeline-item,
+    .contact-panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.16);
+      backdrop-filter: blur(18px);
+    }
+
+    .stat-card {
+      padding: 22px;
+      min-height: 148px;
+    }
+
+    .stat-number {
+      display: block;
+      margin-bottom: 9px;
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: var(--text);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .focus-grid,
+    .projects-grid,
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 18px;
     }
 
-    .card {
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 12px;
-      padding: 22px;
+    .focus-card {
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background:
+        linear-gradient(145deg, rgba(66, 248, 245, 0.08), rgba(155, 92, 255, 0.06)),
+        var(--bg-card);
+      min-height: 225px;
     }
 
-    .card h3 {
+    .focus-card::after {
+      content: attr(data-index);
+      position: absolute;
+      right: 18px;
+      bottom: 0;
+      font-size: 6rem;
+      line-height: 0.85;
+      font-weight: 950;
+      color: rgba(255,255,255,0.045);
+      letter-spacing: -0.1em;
+    }
+
+    .icon {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 22px;
+      border-radius: 15px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--cyan);
+      font-size: 1.2rem;
+    }
+
+    h3 {
       margin-bottom: 10px;
-      font-size: 20px;
+      font-size: 1.25rem;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
     }
 
-    .card p {
-      color: #9da7b3;
-      margin-bottom: 14px;
+    .focus-card p,
+    .project-card p,
+    .skill-card p,
+    .timeline-item p,
+    .contact-panel p {
+      color: var(--muted);
+    }
+
+    .projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(66, 248, 245, 0.33);
+      background: rgba(18, 23, 48, 0.82);
+    }
+
+    .project-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+
+    .project-card h3 {
+      font-size: 1.35rem;
+      margin-bottom: 7px;
+    }
+
+    .project-type {
+      color: var(--muted-2);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.82rem;
+    }
+
+    .project-link {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: var(--cyan);
+      border: 1px solid rgba(66, 248, 245, 0.22);
+      background: rgba(66, 248, 245, 0.07);
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .project-link:hover {
+      background: rgba(66, 248, 245, 0.13);
     }
 
     .tags {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 14px;
+      margin-top: 19px;
     }
 
-    .tag-pill {
-      font-size: 13px;
-      padding: 4px 8px;
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 10px;
       border-radius: 999px;
-      background: #0d1117;
-      border: 1px solid #30363d;
-      color: #c9d1d9;
+      color: #dce5ff;
+      background: rgba(255,255,255,0.065);
+      border: 1px solid rgba(255,255,255,0.09);
+      font-size: 0.82rem;
+      font-weight: 700;
     }
 
-    footer {
-      margin-top: 70px;
-      color: #7d8590;
-      font-size: 14px;
-      border-top: 1px solid #30363d;
-      padding-top: 20px;
+    .timeline {
+      display: grid;
+      gap: 14px;
     }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 36px;
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 170px 1fr;
+      gap: 24px;
+      padding: 22px;
+    }
+
+    .time {
+      color: var(--green);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.9rem;
+    }
+
+    .skills-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .skill-card {
+      padding: 22px;
+    }
+
+    .skill-card ul {
+      list-style: none;
+      display: grid;
+      gap: 9px;
+      margin-top: 14px;
+      color: var(--muted);
+    }
+
+    .skill-card li::before {
+      content: "◇";
+      color: var(--cyan);
+      margin-right: 9px;
+    }
+
+    .contact-panel {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(28px, 6vw, 54px);
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: center;
+      background:
+        radial-gradient(circle at 25% 20%, rgba(66, 248, 245, 0.18), transparent 32%),
+        radial-gradient(circle at 85% 80%, rgba(255, 78, 205, 0.14), transparent 28%),
+        rgba(15, 19, 38, 0.74);
+    }
+
+    .contact-panel h2 {
+      margin-bottom: 16px;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .contact-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+    }
+
+    .contact-row strong {
+      color: var(--text);
+    }
+
+    .footer {
+      padding: 34px 0 50px;
+      color: var(--muted-2);
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 600ms ease, transform 600ms ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .contact-panel {
+        grid-template-columns: 1fr;
       }
 
-      .subtitle {
-        font-size: 17px;
+      .stats-grid,
+      .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .focus-grid,
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        width: min(100% - 28px, var(--max-width));
+      }
+
+      .menu-toggle {
+        display: inline-grid;
+        place-items: center;
+      }
+
+      .nav-links {
+        position: absolute;
+        inset: 74px 14px auto 14px;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(7, 8, 18, 0.96);
+        box-shadow: var(--shadow);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        justify-content: center;
+      }
+
+      .hero {
+        padding: 62px 0 42px;
+      }
+
+      h1 {
+        font-size: clamp(3rem, 18vw, 5rem);
+      }
+
+      .stats-grid,
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .terminal-body {
+        padding: 19px;
+        font-size: 0.82rem;
+      }
+
+      .line {
+        grid-template-columns: 1fr;
+        gap: 3px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <header>
-      <p class="tag">Blockchain Security • Cryptography • Zero-Knowledge</p>
-      <h1>Jeremy LE NEZET</h1>
-      <p class="subtitle">
-        Student at 42 Paris focused on smart contract security, applied cryptography,
-        Ethereum, Rust tooling, and zero-knowledge proof systems.
-      </p>
+  <div class="noise" aria-hidden="true"></div>
 
-      <div class="links">
-        <a class="btn" href="https://github.com/jerem0010" target="_blank">GitHub</a>
-        <a class="btn" href="https://www.linkedin.com/in/jeremy-le-nezet/" target="_blank">LinkedIn</a>
-        <a class="btn" href="./Jeremy_LENEZET_CV.pdf" target="_blank">Resume</a>
-        <a class="btn" href="#writeups">CTF Writeups</a>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="Back to top">
+        <span class="brand-mark">0xJ</span>
+        <span>Jeremy LE NEZET <small>Blockchain Security · ZK · 42 Paris</small></span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-controls="nav-links" aria-expanded="false">☰</button>
+
+      <nav>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#focus">Focus</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#path">Path</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <div class="eyebrow"><span class="pulse"></span> Building at the edge of security, crypto & code</div>
+          <h1>Blockchain Security <span class="gradient-text">& ZK Systems</span></h1>
+          <p>
+            I am Jeremy, a 42 Paris student focused on smart contract security, cryptography,
+            zero-knowledge systems and low-level engineering. I build audit tooling, EVM/Solana
+            experiments, CTF writeups and proof-of-concept security research.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn" href="#projects">Explore projects →</a>
+            <a class="btn secondary" href="https://github.com/jerem0010" target="_blank" rel="noreferrer">GitHub</a>
+            <a class="btn secondary" href="./Jeremy_LENEZET_CV.pdf">CV</a>
+          </div>
+        </div>
+
+        <aside class="terminal-card reveal" aria-label="Profile summary">
+          <div class="terminal-head">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          </div>
+          <div class="terminal-body">
+            <div class="line"><span class="key">role</span><span class="value"><strong>Security-minded blockchain developer</strong></span></div>
+            <div class="line"><span class="key">stack</span><span class="value">Solidity · Rust · Python · C/C++ · Noir</span></div>
+            <div class="line"><span class="key">domain</span><span class="value">EVM · Solana · ZK · Cryptography · Audits</span></div>
+            <div class="line"><span class="key">signal</span><span class="value">CTFs · audit tooling · hackathons · research notes</span></div>
+
+            <div class="chain" aria-hidden="true">
+              <div class="block">audit</div>
+              <div class="arrow">→</div>
+              <div class="block">prove</div>
+              <div class="arrow">→</div>
+              <div class="block">ship</div>
+            </div>
+          </div>
+        </aside>
       </div>
-    </header>
+    </section>
 
-    <section>
-      <h2>Featured Projects</h2>
-
-      <div class="grid">
-        <div class="card">
-          <h3>EVM Scan</h3>
-          <p>
-            Rust CLI for inspecting Ethereum smart contracts, fetching bytecode,
-            extracting function selectors, resolving signatures, and interacting with contracts.
-          </p>
-          <div class="tags">
-            <span class="tag-pill">Rust</span>
-            <span class="tag-pill">Ethereum</span>
-            <span class="tag-pill">Foundry</span>
-            <span class="tag-pill">EVM</span>
-          </div>
-          <a href="https://github.com/jerem0010/evm-scan" target="_blank">View project →</a>
+    <section class="section">
+      <div class="container stats-grid">
+        <div class="stat-card reveal">
+          <span class="stat-number">42</span>
+          <span class="stat-label">Paris engineering curriculum: C, C++, systems, networking and graphics projects.</span>
         </div>
-
-        <div class="card">
-          <h3>Smart Contract Audit Agent</h3>
-          <p>
-            Experimental audit pipeline combining Slither, Foundry, structured findings,
-            and report generation for Solidity repositories.
-          </p>
-          <div class="tags">
-            <span class="tag-pill">Solidity</span>
-            <span class="tag-pill">Python</span>
-            <span class="tag-pill">Slither</span>
-            <span class="tag-pill">Security</span>
-          </div>
-          <a href="https://github.com/jerem0010/smart-contract-audit-agent" target="_blank">View project →</a>
+        <div class="stat-card reveal">
+          <span class="stat-number">EVM</span>
+          <span class="stat-label">Smart contract security, Solidity labs, Foundry, Slither and bytecode tooling.</span>
         </div>
-
-        <div class="card">
-          <h3>ZK Experiments</h3>
-          <p>
-            Circom and Noir experiments around commitments, Merkle proofs,
-            nullifiers, private voting, and anonymous authentication.
-          </p>
-          <div class="tags">
-            <span class="tag-pill">Noir</span>
-            <span class="tag-pill">Circom</span>
-            <span class="tag-pill">ZK</span>
-            <span class="tag-pill">Cryptography</span>
-          </div>
-          <a href="https://github.com/jerem0010" target="_blank">View repositories →</a>
+        <div class="stat-card reveal">
+          <span class="stat-number">ZK</span>
+          <span class="stat-label">Noir, Circom, commitments, Merkle proofs, nullifiers and verifier experiments.</span>
+        </div>
+        <div class="stat-card reveal">
+          <span class="stat-number">CTF</span>
+          <span class="stat-label">Crypto writeups around RSA, ECC, ECDSA, commitments and modular arithmetic.</span>
         </div>
       </div>
     </section>
 
-    <section id="writeups">
-      <h2>CTF Writeups</h2>
-
-      <div class="grid">
-        <div class="card">
-          <h3>Crypto Writeups</h3>
-          <p>
-            Writeups focused on RSA, ECDSA, elliptic curves, commitments,
-            modular arithmetic, and signature vulnerabilities.
-          </p>
-          <div class="tags">
-            <span class="tag-pill">Crypto</span>
-            <span class="tag-pill">RSA</span>
-            <span class="tag-pill">ECDSA</span>
-            <span class="tag-pill">CTF</span>
+    <section class="section" id="focus">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div>
+            <div class="section-kicker">/ focus</div>
+            <h2>What I am optimizing for</h2>
           </div>
-          <a href="https://github.com/jerem0010/ctf-writeups" target="_blank">Read writeups →</a>
+          <p>My portfolio is intentionally narrow: less generic web development, more security, cryptography and protocol-level engineering.</p>
         </div>
 
-        <div class="card">
-          <h3>Security Notes</h3>
-          <p>
-            Personal notes and explanations about smart contract vulnerabilities,
-            cryptographic primitives, and blockchain security concepts.
-          </p>
-          <div class="tags">
-            <span class="tag-pill">Research</span>
-            <span class="tag-pill">Security</span>
-            <span class="tag-pill">Notes</span>
-          </div>
-          <a href="https://github.com/jerem0010" target="_blank">View GitHub →</a>
+        <div class="focus-grid">
+          <article class="focus-card reveal" data-index="01">
+            <div class="icon">◇</div>
+            <h3>Smart Contract Security</h3>
+            <p>Auditing patterns, exploit reasoning, EVM internals, vulnerable contract labs and structured security findings.</p>
+          </article>
+
+          <article class="focus-card reveal" data-index="02">
+            <div class="icon">⌁</div>
+            <h3>Cryptography & CTFs</h3>
+            <p>Learning by breaking: RSA, elliptic curves, ECDSA, commitments, modular arithmetic and challenge writeups.</p>
+          </article>
+
+          <article class="focus-card reveal" data-index="03">
+            <div class="icon">⬡</div>
+            <h3>Zero-Knowledge Systems</h3>
+            <p>Noir/Circom circuits, Merkle inclusion proofs, private governance ideas and verifier integration experiments.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <section>
-      <h2>Skills</h2>
-
-      <div class="grid">
-        <div class="card">
-          <h3>Smart Contract Security</h3>
-          <p>Solidity, Foundry, Slither, EVM internals, proxies, storage, access control, reentrancy.</p>
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div>
+            <div class="section-kicker">/ selected work</div>
+            <h2>Projects that prove the direction</h2>
+          </div>
+          <p>Each project is selected because it compounds toward blockchain security research, ZK engineering or audit tooling.</p>
         </div>
 
-        <div class="card">
-          <h3>Cryptography</h3>
-          <p>RSA, ECDSA, elliptic curves, commitments, Merkle trees, modular arithmetic.</p>
-        </div>
+        <div class="projects-grid">
+          <article class="project-card reveal">
+            <div class="project-top">
+              <div>
+                <div class="project-type">Rust · EVM Tooling</div>
+                <h3>EVM Scan</h3>
+              </div>
+              <a class="project-link" href="https://github.com/jerem0010/evm-scan" target="_blank" rel="noreferrer">Repo ↗</a>
+            </div>
+            <p>
+              Rust CLI using Foundry tools to inspect Ethereum contracts, fetch bytecode, extract function selectors,
+              resolve 4byte signatures and interact with read/write calls.
+            </p>
+            <div class="tags">
+              <span class="tag">Rust</span><span class="tag">EVM</span><span class="tag">Foundry</span><span class="tag">Bytecode</span>
+            </div>
+          </article>
 
-        <div class="card">
-          <h3>Zero-Knowledge</h3>
-          <p>Noir, Circom, Barretenberg, SNARKs, nullifiers, private voting, anonymous proofs.</p>
-        </div>
+          <article class="project-card reveal">
+            <div class="project-top">
+              <div>
+                <div class="project-type">Python · Audit Automation</div>
+                <h3>Smart Contract Audit Agent</h3>
+              </div>
+              <a class="project-link" href="https://github.com/jerem0010/smart-contract-audit-agent" target="_blank" rel="noreferrer">Repo ↗</a>
+            </div>
+            <p>
+              Early audit-agent pipeline that parses Slither output, structures findings by impact and generates
+              Markdown/JSON reports. Built as a base for AI-assisted smart contract review.
+            </p>
+            <div class="tags">
+              <span class="tag">Python</span><span class="tag">Slither</span><span class="tag">Solidity</span><span class="tag">Reports</span>
+            </div>
+          </article>
 
-        <div class="card">
-          <h3>Programming</h3>
-          <p>Rust, Solidity, Python, C, C++, JavaScript, Bash, Git, Linux.</p>
+          <article class="project-card reveal">
+            <div class="project-top">
+              <div>
+                <div class="project-type">Security · Crypto</div>
+                <h3>CTF Writeups</h3>
+              </div>
+              <a class="project-link" href="https://github.com/jerem0010/ctf-writeups" target="_blank" rel="noreferrer">Repo ↗</a>
+            </div>
+            <p>
+              Public writeups focused on cryptography challenges: RSA attacks, elliptic curves, ECDSA mistakes,
+              commitments, modular arithmetic and practical exploit reasoning.
+            </p>
+            <div class="tags">
+              <span class="tag">Crypto</span><span class="tag">Python</span><span class="tag">Math</span><span class="tag">CTF</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-top">
+              <div>
+                <div class="project-type">Solidity · Security Lab</div>
+                <h3>Smart Contract Lab</h3>
+              </div>
+              <a class="project-link" href="https://github.com/jerem0010/smart-contract-lab" target="_blank" rel="noreferrer">Repo ↗</a>
+            </div>
+            <p>
+              Solidity/Foundry lab covering ERC standards, reentrancy, access control, proxy architectures,
+              storage layout, gas patterns and L2/ZK-related explorations.
+            </p>
+            <div class="tags">
+              <span class="tag">Solidity</span><span class="tag">Foundry</span><span class="tag">Security</span><span class="tag">Proxies</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-top">
+              <div>
+                <div class="project-type">Noir · Aztec · Privacy</div>
+                <h3>Private DAO Experiments</h3>
+              </div>
+              <a class="project-link" href="#contact">WIP</a>
+            </div>
+            <p>
+              Research prototype direction for private governance using commitments, Merkle trees, nullifiers and
+              zero-knowledge proofs to separate eligibility from identity.
+            </p>
+            <div class="tags">
+              <span class="tag">Noir</span><span class="tag">Aztec</span><span class="tag">Merkle</span><span class="tag">Nullifiers</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-top">
+              <div>
+                <div class="project-type">Circom · Noir · Proofs</div>
+                <h3>ZK Circuit Notes</h3>
+              </div>
+              <a class="project-link" href="https://github.com/jerem0010/circom_circuits" target="_blank" rel="noreferrer">Repo ↗</a>
+            </div>
+            <p>
+              Circuits and notes around constraints, witnesses, Merkle inclusion, commitments and proof verification.
+              Built to understand what actually happens below the abstraction layer.
+            </p>
+            <div class="tags">
+              <span class="tag">Circom</span><span class="tag">Noir</span><span class="tag">SNARKs</span><span class="tag">ZK</span>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <footer>
-      <p>Built with HTML/CSS and hosted on GitHub Pages.</p>
-    </footer>
-  </div>
+    <section class="section" id="path">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div>
+            <div class="section-kicker">/ path</div>
+            <h2>Proof of work</h2>
+          </div>
+          <p>A compact timeline of the experiences I want recruiters and researchers to remember.</p>
+        </div>
+
+        <div class="timeline">
+          <article class="timeline-item reveal">
+            <div class="time">2024 — now</div>
+            <div>
+              <h3>42 Paris</h3>
+              <p>Systems-heavy curriculum: C, C++, networking, parsing, multithreading, graphics and project-based engineering.</p>
+            </div>
+          </article>
+
+          <article class="timeline-item reveal">
+            <div class="time">Hackathons</div>
+            <div>
+              <h3>Blockchain & AI builder</h3>
+              <p>Winner of the LCL AI Hackathon. Participated in Ethereum/Solana hackathons and worked on DeFi, tooling and protocol prototypes.</p>
+            </div>
+          </article>
+
+          <article class="timeline-item reveal">
+            <div class="time">Solana</div>
+            <div>
+              <h3>Security Lead — FlexFi BNPL</h3>
+              <p>Reviewed smart contract security and helped reason about protocol risks, APIs and implementation choices during a Solana hackathon project.</p>
+            </div>
+          </article>
+
+          <article class="timeline-item reveal">
+            <div class="time">Research track</div>
+            <div>
+              <h3>Crypto, ZK and audit contests</h3>
+              <p>Focused learning through CTFs, Immunefi/Sherlock-style security practice, vulnerable contract labs and ZK experiments.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div>
+            <div class="section-kicker">/ skills</div>
+            <h2>Technical stack</h2>
+          </div>
+          <p>Not a random keyword soup: these are the tools I use to move toward security research and protocol engineering.</p>
+        </div>
+
+        <div class="skills-grid">
+          <article class="skill-card reveal">
+            <h3>Languages</h3>
+            <ul>
+              <li>Solidity</li>
+              <li>Rust</li>
+              <li>Python</li>
+              <li>C / C++</li>
+              <li>Noir</li>
+            </ul>
+          </article>
+
+          <article class="skill-card reveal">
+            <h3>Blockchain</h3>
+            <ul>
+              <li>EVM internals</li>
+              <li>Foundry</li>
+              <li>Slither</li>
+              <li>Solana / Anchor</li>
+              <li>DeFi protocols</li>
+            </ul>
+          </article>
+
+          <article class="skill-card reveal">
+            <h3>Security</h3>
+            <ul>
+              <li>Smart contract audits</li>
+              <li>Threat modeling</li>
+              <li>CTF cryptography</li>
+              <li>Exploit reasoning</li>
+              <li>Report writing</li>
+            </ul>
+          </article>
+
+          <article class="skill-card reveal">
+            <h3>ZK / Crypto</h3>
+            <ul>
+              <li>Modular arithmetic</li>
+              <li>Elliptic curves</li>
+              <li>Circom / Noir</li>
+              <li>Merkle proofs</li>
+              <li>Commitments</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact-panel reveal">
+          <div>
+            <div class="section-kicker">/ contact</div>
+            <h2>Want to talk security, ZK or protocols?</h2>
+            <p>
+              I am looking for opportunities where I can grow around blockchain security research,
+              smart contract audits, zero-knowledge systems and applied cryptography.
+            </p>
+            <div class="contact-actions" style="margin-top: 24px;">
+              <a class="btn" href="mailto:jerem.lenezet@gmail.com">Email me →</a>
+              <a class="btn secondary" href="https://www.linkedin.com/in/jeremy-le-nezet/" target="_blank" rel="noreferrer">LinkedIn</a>
+              <a class="btn secondary" href="https://github.com/jerem0010" target="_blank" rel="noreferrer">GitHub</a>
+            </div>
+          </div>
+
+          <div class="contact-list" aria-label="Contact links">
+            <div class="contact-row"><strong>Email</strong><span>jerem.lenezet@gmail.com</span></div>
+            <div class="contact-row"><strong>GitHub</strong><span>@jerem0010</span></div>
+            <div class="contact-row"><strong>Location</strong><span>Paris, France</span></div>
+            <div class="contact-row"><strong>Target</strong><span>Blockchain Security · ZK · Audit</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      Built by Jeremy LE NEZET · Securing the edge between code, cryptography and protocols.
+    </div>
+  </footer>
+
+  <script>
+    const menuButton = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('#nav-links');
+
+    menuButton?.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuButton.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    navLinks?.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuButton?.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+  </script>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Jeremy LE NEZET",
+      "url": "https://jerem0010.github.io/",
+      "sameAs": [
+        "https://github.com/jerem0010",
+        "https://www.linkedin.com/in/jeremy-le-nezet/"
+      ],
+      "knowsAbout": [
+        "Blockchain Security",
+        "Smart Contract Auditing",
+        "Zero-Knowledge Proofs",
+        "Cryptography",
+        "Ethereum",
+        "Solana",
+        "Rust",
+        "Solidity"
+      ]
+    }
+  </script>
 </body>
 </html>
