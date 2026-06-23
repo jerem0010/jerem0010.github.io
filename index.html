@@ -3,779 +3,696 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Jeremy LE NEZET — Portfolio focused on blockchain security, smart contract auditing, cryptography, and zero-knowledge systems." />
-  <meta name="theme-color" content="#0a0f1f" />
-
-  <meta property="og:title" content="Jeremy LE NEZET — Blockchain Security" />
-  <meta property="og:description" content="Smart contract security, audit tooling, cryptography, CTFs, and zero-knowledge experiments." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://jerem0010.github.io/" />
-
-  <title>Jeremy LE NEZET — Blockchain Security</title>
+  <meta name="description" content="@jerem0010 — blockchain security, zero-knowledge, cryptography and project portfolio." />
+  <title>@jerem0010 — Portfolio</title>
 
   <style>
     :root {
-      --bg: #080c16;
-      --bg-soft: #0d1324;
-      --card: #11182b;
-      --card-soft: #0f1628;
-      --text: #edf2ff;
-      --muted: #9aa7c7;
-      --muted-2: #6f7b9d;
-      --border: rgba(255, 255, 255, 0.09);
-      --accent: #61f4c8;
-      --accent-2: #7aa2ff;
-      --danger: #ff6b9d;
-      --shadow: 0 24px 70px rgba(0, 0, 0, 0.30);
-      --radius: 18px;
-      --max: 1120px;
+      --bg: #101114;
+      --panel: rgba(255,255,255,0.026);
+      --panel-hover: rgba(255,255,255,0.045);
+      --text: #eeeeee;
+      --muted: #b6bac3;
+      --faint: #808690;
+      --line: #2b3038;
+      --accent: #c7f284;
+      --accent-soft: rgba(199, 242, 132, 0.08);
+      --max: 1080px;
+      --radius: 14px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
       min-height: 100vh;
+      background: var(--bg);
       color: var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(97, 244, 200, 0.10), transparent 34rem),
-        radial-gradient(circle at top right, rgba(122, 162, 255, 0.10), transparent 30rem),
-        var(--bg);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.6;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: linear-gradient(to bottom, black 0%, transparent 82%);
       z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at top left, rgba(199, 242, 132, 0.045), transparent 32rem),
+        linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+      background-size: auto, 44px 44px, 44px 44px;
+      mask-image: linear-gradient(to bottom, black, transparent 88%);
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: var(--accent); }
 
-    .container {
-      width: min(100% - 40px, var(--max));
-      margin-inline: auto;
-    }
-
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      border-bottom: 1px solid var(--border);
-      background: rgba(8, 12, 22, 0.78);
-      backdrop-filter: blur(18px);
-    }
-
-    .nav-inner {
-      min-height: 70px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 750;
-      letter-spacing: -0.03em;
-    }
-
-    .brand-mark {
-      width: 38px;
-      height: 38px;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(97, 244, 200, 0.25);
-      border-radius: 12px;
-      color: var(--accent);
-      background: rgba(97, 244, 200, 0.06);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.9rem;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 4px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      display: inline-flex;
-      padding: 9px 12px;
-      border-radius: 999px;
-      color: var(--muted);
-      font-size: 0.92rem;
-      transition: 160ms ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.06);
+    .page {
+      width: min(100% - 32px, var(--max));
+      margin: 0 auto;
+      padding: 46px 0 64px;
     }
 
     .hero {
-      padding: 96px 0 72px;
-    }
-
-    .hero-grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 44px;
-      align-items: center;
+      gap: 14px;
+      padding: 18px 0 30px;
     }
 
-    .eyebrow {
-      width: fit-content;
-      display: inline-flex;
+    .identity {
+      display: flex;
       align-items: center;
-      gap: 9px;
-      margin-bottom: 22px;
-      padding: 8px 12px;
-      border: 1px solid rgba(97, 244, 200, 0.22);
+      gap: 16px;
+    }
+
+    .avatar {
+      flex: 0 0 auto;
+      width: 62px;
+      height: 62px;
+      border: 1px solid var(--line);
       border-radius: 999px;
-      color: var(--accent);
-      background: rgba(97, 244, 200, 0.06);
-      font-size: 0.88rem;
-      font-weight: 700;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 18px rgba(97, 244, 200, 0.6);
+      background: var(--panel);
+      background-image: url("./avatar.png");
+      background-position: center;
+      background-size: cover;
     }
 
     h1 {
-      max-width: 760px;
-      margin-bottom: 22px;
-      font-size: clamp(2.7rem, 7vw, 5.8rem);
-      line-height: 0.96;
-      letter-spacing: -0.075em;
+      font-size: clamp(2.4rem, 7vw, 4.9rem);
+      line-height: 0.95;
+      letter-spacing: -0.085em;
     }
 
-    .accent-text {
+    .headline {
+      margin-top: 10px;
       color: var(--accent);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.88rem;
+      letter-spacing: 0.02em;
     }
 
-    .lead {
-      max-width: 700px;
-      margin-bottom: 30px;
-      color: var(--muted);
-      font-size: clamp(1.04rem, 1.6vw, 1.22rem);
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 44px;
-      padding: 0 16px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.04);
-      font-weight: 700;
-      transition: 170ms ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      border-color: rgba(97, 244, 200, 0.35);
-      background: rgba(97, 244, 200, 0.08);
-    }
-
-    .btn.primary {
-      color: #06120e;
-      border-color: transparent;
-      background: var(--accent);
-    }
-
-    .btn.primary:hover {
-      background: #7dffd8;
-    }
-
-    .panel {
-      border: 1px solid var(--border);
-      border-radius: calc(var(--radius) + 8px);
-      background: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.02));
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .terminal-top {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      height: 44px;
-      padding-inline: 16px;
-      border-bottom: 1px solid var(--border);
-      background: rgba(255,255,255,0.025);
-    }
-
-    .circle {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--muted-2);
-      opacity: 0.75;
-    }
-
-    .terminal {
-      padding: 22px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.92rem;
-      color: var(--muted);
-    }
-
-    .terminal p + p {
-      margin-top: 12px;
-    }
-
-    .prompt {
-      color: var(--accent);
-    }
-
-    .cmd {
-      color: var(--text);
-    }
-
-    .out {
-      color: var(--muted-2);
-    }
-
-    section {
-      padding: 60px 0;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 26px;
-    }
-
-    h2 {
-      font-size: clamp(1.8rem, 3vw, 2.6rem);
-      line-height: 1.08;
-      letter-spacing: -0.055em;
-    }
-
-    .section-head p {
-      max-width: 520px;
-      color: var(--muted);
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-
-    .card {
-      min-height: 100%;
-      padding: 22px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: rgba(17, 24, 43, 0.78);
-      transition: 170ms ease;
-    }
-
-    .card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(97, 244, 200, 0.24);
-      background: rgba(19, 28, 50, 0.92);
-    }
-
-    .card h3 {
-      margin-bottom: 9px;
-      font-size: 1.08rem;
-      letter-spacing: -0.025em;
-    }
-
-    .card p {
-      color: var(--muted);
-      font-size: 0.96rem;
-    }
-
-    .tag-row {
+    .quick-links,
+    .view-tabs,
+    .filters,
+    .mini-links {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 16px;
     }
 
-    .tag {
+    .button,
+    .filter,
+    .view-tab,
+    .jump-link {
       display: inline-flex;
-      padding: 5px 9px;
-      border: 1px solid var(--border);
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
       border-radius: 999px;
+      background: var(--panel);
       color: var(--muted);
-      background: rgba(255, 255, 255, 0.03);
-      font-size: 0.78rem;
-      font-weight: 650;
+      font: inherit;
+      font-weight: 620;
+      cursor: pointer;
+      transition: border-color 150ms ease, background 150ms ease, color 150ms ease, transform 150ms ease;
     }
 
-    .project-card {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+    .button {
+      min-height: 36px;
+      padding: 0 12px;
+      font-size: 0.92rem;
     }
+
+    .button.primary { color: var(--text); }
+
+    .button:hover,
+    .filter:hover,
+    .view-tab:hover,
+    .jump-link:hover {
+      border-color: rgba(199, 242, 132, 0.45);
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .filter.active,
+    .view-tab.active {
+      border-color: rgba(199, 242, 132, 0.55);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .work-switcher {
+      padding: 16px 0 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .view-tabs { align-items: center; }
+
+    .view-tab {
+      min-height: 34px;
+      padding: 0 12px;
+      font-size: 0.9rem;
+    }
+
+    .jump-link {
+      min-height: 31px;
+      margin-left: 4px;
+      padding: 0 10px;
+      color: var(--faint);
+      font-size: 0.82rem;
+    }
+
+    section {
+      padding: 28px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .catalog { padding-top: 22px; }
+    .catalog.view-hidden { display: none; }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      color: var(--text);
+      font-size: 0.88rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .filters { margin-bottom: 14px; }
+
+    .filter {
+      min-height: 30px;
+      padding: 0 10px;
+      font-size: 0.82rem;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .project {
+      position: relative;
+      display: flex;
+      min-height: 100%;
+      flex-direction: column;
+      gap: 10px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      transition: border-color 150ms ease, background 150ms ease, transform 150ms ease;
+    }
+
+    .project:hover {
+      transform: translateY(-2px);
+      border-color: rgba(199, 242, 132, 0.36);
+      background: var(--panel-hover);
+    }
+
+    .project.hidden { display: none; }
 
     .project-top {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 16px;
-    }
-
-    .project-links {
-      display: flex;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
-    .icon-link {
-      display: inline-grid;
-      place-items: center;
-      width: 34px;
-      height: 34px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--muted);
-      background: rgba(255, 255, 255, 0.035);
-      transition: 160ms ease;
-    }
-
-    .icon-link:hover {
-      color: var(--accent);
-      border-color: rgba(97, 244, 200, 0.32);
-    }
-
-    .timeline {
-      display: grid;
       gap: 12px;
     }
 
-    .timeline-item {
-      display: grid;
-      grid-template-columns: 160px 1fr;
-      gap: 20px;
-      padding: 18px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: rgba(255, 255, 255, 0.025);
+    h3 {
+      font-size: 1rem;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
     }
 
-    .time {
-      color: var(--accent);
-      font-weight: 750;
-      font-size: 0.9rem;
+    .kind,
+    .repo {
+      color: var(--faint);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
     }
 
-    .timeline-item strong {
-      display: block;
-      margin-bottom: 4px;
+    .kind {
+      flex: 0 0 auto;
+      font-size: 0.7rem;
+      text-align: right;
+      white-space: nowrap;
     }
 
-    .timeline-item p {
+    .project p {
       color: var(--muted);
+      font-size: 0.88rem;
     }
 
-    .skills {
+    .tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 6px;
+      margin-top: auto;
+      padding-right: 44px;
     }
 
-    .skill {
-      padding: 9px 12px;
-      border: 1px solid var(--border);
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 0 7px;
+      border: 1px solid var(--line);
       border-radius: 999px;
       color: var(--muted);
-      background: rgba(255, 255, 255, 0.035);
-      font-size: 0.92rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.7rem;
+    }
+
+    .repo {
+      position: absolute;
+      right: 14px;
+      bottom: 13px;
+      font-size: 0.74rem;
       font-weight: 650;
     }
 
-    .contact {
-      margin: 60px 0 30px;
-      padding: 34px;
-      border: 1px solid rgba(97, 244, 200, 0.18);
-      border-radius: calc(var(--radius) + 10px);
-      background:
-        radial-gradient(circle at top right, rgba(97, 244, 200, 0.10), transparent 22rem),
-        rgba(17, 24, 43, 0.78);
-    }
-
-    .contact-grid {
+    .achievement-list {
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 24px;
-      align-items: center;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
     }
 
-    .contact p {
-      max-width: 660px;
-      margin-top: 10px;
+    .achievement {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      border-left: 2px solid rgba(199, 242, 132, 0.55);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.018);
+    }
+
+    .achievement strong {
+      display: block;
+      font-size: 0.96rem;
+      letter-spacing: -0.02em;
+    }
+
+    .achievement small {
+      color: var(--faint);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .mini-links a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 31px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.018);
       color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 620;
+    }
+
+    .mini-links a:hover {
+      border-color: rgba(199, 242, 132, 0.45);
+      background: var(--accent-soft);
+      color: var(--accent);
     }
 
     footer {
-      padding: 30px 0 44px;
-      color: var(--muted-2);
-      font-size: 0.92rem;
+      padding-top: 30px;
+      border-top: 1px solid var(--line);
+      color: var(--faint);
+      font-size: 0.88rem;
     }
 
-    @media (max-width: 900px) {
-      .hero-grid,
-      .grid-3,
-      .grid-2,
-      .contact-grid {
-        grid-template-columns: 1fr;
-      }
+    footer a { color: var(--muted); }
 
-      .section-head {
-        display: block;
-      }
-
-      .section-head p {
-        margin-top: 10px;
-      }
-
-      .panel {
-        order: -1;
-      }
+    @media (max-width: 980px) {
+      .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
-    @media (max-width: 720px) {
-      .container {
-        width: min(100% - 28px, var(--max));
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .hero {
-        padding: 70px 0 46px;
-      }
-
-      section {
-        padding: 42px 0;
-      }
-
-      .timeline-item {
-        grid-template-columns: 1fr;
-        gap: 8px;
-      }
-
-      .contact {
-        padding: 24px;
-      }
+    @media (max-width: 760px) {
+      .page { width: min(100% - 24px, var(--max)); padding-top: 28px; }
+      .identity { align-items: flex-start; }
+      .avatar { width: 52px; height: 52px; }
+      .project-grid, .achievement-list { grid-template-columns: 1fr; }
+      .section-head { align-items: flex-start; flex-direction: column; }
+      .jump-link { margin-left: 0; }
     }
   </style>
 </head>
+
 <body>
-  <nav class="nav">
-    <div class="container nav-inner">
-      <a class="brand" href="#top" aria-label="Go to top">
-        <span class="brand-mark">JLN</span>
-        <span>Jeremy LE NEZET</span>
-      </a>
-
-      <ul class="nav-links" aria-label="Main navigation">
-        <li><a href="#work">Work</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#proof">Proof</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <main id="top">
-    <header class="hero">
-      <div class="container hero-grid">
+  <main class="page">
+    <header class="hero" aria-label="Intro">
+      <div class="identity">
+        <span class="avatar" aria-hidden="true"></span>
         <div>
-          <div class="eyebrow"><span class="dot"></span> Blockchain security · Cryptography · ZK</div>
-          <h1>Building security intuition for <span class="accent-text">on-chain systems</span>.</h1>
-          <p class="lead">
-            I am a 42 Paris student focused on smart contract security, audit tooling,
-            cryptography challenges, and zero-knowledge systems. I like turning complex
-            protocols into concrete code, tests, writeups, and security notes.
-          </p>
-
-          <div class="actions">
-            <a class="btn primary" href="https://github.com/jerem0010" target="_blank" rel="noreferrer">GitHub</a>
-            <a class="btn" href="./Jeremy_LENEZET_CV.pdf">Resume</a>
-            <a class="btn" href="https://www.linkedin.com/in/jeremy-le-nezet/" target="_blank" rel="noreferrer">LinkedIn</a>
-          </div>
+          <h1>@jerem0010</h1>
+          <p class="headline">blockchain security / zero-knowledge / cryptography</p>
         </div>
-
-        <aside class="panel" aria-label="Current focus">
-          <div class="terminal-top">
-            <span class="circle"></span>
-            <span class="circle"></span>
-            <span class="circle"></span>
-          </div>
-          <div class="terminal">
-            <p><span class="prompt">$</span> <span class="cmd">current_focus</span></p>
-            <p class="out">smart contract audits · EVM internals · ZK proofs · CTF crypto</p>
-            <p><span class="prompt">$</span> <span class="cmd">main_stack</span></p>
-            <p class="out">Solidity · Rust · Python · C/C++ · Foundry · Slither · Noir</p>
-            <p><span class="prompt">$</span> <span class="cmd">status</span></p>
-            <p class="out">building public proof of work, one repo and one writeup at a time</p>
-          </div>
-        </aside>
       </div>
     </header>
 
-    <section id="work">
-      <div class="container">
-        <div class="section-head">
-          <h2>What I work on</h2>
-          <p>Security-oriented projects at the intersection of blockchain, cryptography, systems, and tooling.</p>
-        </div>
+    <div id="work" class="work-switcher">
+      <div class="view-tabs" aria-label="Catalogue selector">
+        <button class="view-tab active" type="button" data-view="projects" aria-pressed="true">Projects</button>
+        <button class="view-tab" type="button" data-view="ctf-writeups" aria-pressed="false">CTF Writeups</button>
+        <button class="view-tab" type="button" data-view="educational" aria-pressed="false">Educational</button>
+      </div>
+    </div>
 
-        <div class="grid-3">
-          <article class="card">
-            <h3>Smart contract security</h3>
-            <p>Studying Solidity patterns, EVM behavior, proxies, storage layout, access control, reentrancy, and audit methodology.</p>
-            <div class="tag-row">
-              <span class="tag">Solidity</span>
-              <span class="tag">Foundry</span>
-              <span class="tag">Slither</span>
-            </div>
-          </article>
+    <section id="projects" class="catalog" data-view-panel="projects">
+      <div class="section-head"><h2>Projects</h2></div>
+      <div class="filters" aria-label="Project filters">
+        <button class="filter active" type="button" data-filter="all">All</button>
+        <button class="filter" type="button" data-filter="security">Security</button>
+        <button class="filter" type="button" data-filter="tools">Tools</button>
+        <button class="filter" type="button" data-filter="ethereum">Ethereum</button>
+        <button class="filter" type="button" data-filter="zk">ZK</button>
+        <button class="filter" type="button" data-filter="42">42</button>
+        <button class="filter" type="button" data-filter="ai">AI</button>
+      </div>
 
-          <article class="card">
-            <h3>Cryptography & CTFs</h3>
-            <p>Writing up crypto challenges around RSA, elliptic curves, commitments, signatures, modular arithmetic, and protocol bugs.</p>
-            <div class="tag-row">
-              <span class="tag">ECC</span>
-              <span class="tag">RSA</span>
-              <span class="tag">Python</span>
-            </div>
-          </article>
+      <div class="project-grid">
+        <article class="project" data-category="security tools ethereum">
+          <div class="project-top"><h3>evm-scan</h3><span class="kind">rust / evm</span></div>
+          <p>Rust CLI for EVM bytecode inspection, selector extraction and contract interaction through Foundry tooling.</p>
+          <div class="tags"><span class="tag">Rust</span><span class="tag">EVM</span><span class="tag">Foundry</span></div>
+          <a class="repo" href="https://github.com/jerem0010/evm-scan" target="_blank" rel="noreferrer">repo</a>
+        </article>
 
-          <article class="card">
-            <h3>Zero-knowledge systems</h3>
-            <p>Experimenting with circuits, commitments, Merkle proofs, private governance concepts, and verifier integrations.</p>
-            <div class="tag-row">
-              <span class="tag">Noir</span>
-              <span class="tag">Circom</span>
-              <span class="tag">SNARKs</span>
-            </div>
-          </article>
-        </div>
+        <article class="project" data-category="security tools ethereum ai">
+          <div class="project-top"><h3>smart-contract-audit-agent</h3><span class="kind">python / audit</span></div>
+          <p>Prototype for AI-assisted smart contract review: Slither output, structured findings and report generation.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Solidity</span><span class="tag">Slither</span></div>
+          <a class="repo" href="https://github.com/jerem0010/smart-contract-audit-agent" target="_blank" rel="noreferrer">repo</a>
+        </article>
+
+        <article class="project" data-category="tools ethereum security">
+          <div class="project-top"><h3>contract_scanner</h3><span class="kind">python / evm</span></div>
+          <p>Small Python CLI for Ethereum contract inspection: balance, nonce, bytecode, selectors and 4byte resolution.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">EVM</span><span class="tag">CLI</span></div>
+          <a class="repo" href="https://github.com/jerem0010/contract_scanner" target="_blank" rel="noreferrer">repo</a>
+        </article>
+
+        <article class="project" data-category="zk ethereum security">
+          <div class="project-top"><h3>Private DAO experiments</h3><span class="kind">noir / aztec</span></div>
+          <p>Private governance experiments around commitments, nullifiers, Merkle membership and anonymous voting.</p>
+          <div class="tags"><span class="tag">Noir</span><span class="tag">Aztec</span><span class="tag">privacy</span></div>
+          <a class="repo" href="https://github.com/jerem0010" target="_blank" rel="noreferrer">github</a>
+        </article>
+
+        <article class="project" data-category="42">
+          <div class="project-top"><h3>ft_irc</h3><span class="kind">c++ / tcp</span></div>
+          <p>IRC server project: TCP sockets, parsing, channels, protocol state and event-driven architecture.</p>
+          <div class="tags"><span class="tag">C++</span><span class="tag">TCP</span><span class="tag">poll</span></div>
+          <a class="repo" href="https://github.com/jerem0010/ft_irc" target="_blank" rel="noreferrer">repo</a>
+        </article>
+
+        <article class="project" data-category="42">
+          <div class="project-top"><h3>cub3d</h3><span class="kind">c / graphics</span></div>
+          <p>Raycasting engine with map parsing, movement, textures and low-level rendering practice.</p>
+          <div class="tags"><span class="tag">C</span><span class="tag">raycasting</span><span class="tag">graphics</span></div>
+          <a class="repo" href="https://github.com/jerem0010/cub3d" target="_blank" rel="noreferrer">repo</a>
+        </article>
+
+        <article class="project" data-category="42">
+          <div class="project-top"><h3>minishell</h3><span class="kind">c / unix</span></div>
+          <p>Minimal Unix shell implementation: parsing, expansion, pipes, redirections, signals and process execution.</p>
+          <div class="tags"><span class="tag">C</span><span class="tag">shell</span><span class="tag">processes</span></div>
+          <a class="repo" href="https://github.com/jerem0010/minishell" target="_blank" rel="noreferrer">repo</a>
+        </article>
+
+        <article class="project" data-category="42">
+          <div class="project-top"><h3>fract-ol</h3><span class="kind">c / graphics</span></div>
+          <p>Interactive fractal explorer for Mandelbrot and Julia sets with low-level graphics and event handling.</p>
+          <div class="tags"><span class="tag">C</span><span class="tag">fractals</span><span class="tag">MLX</span></div>
+          <a class="repo" href="https://github.com/jerem0010/fract-ol" target="_blank" rel="noreferrer">repo</a>
+        </article>
+
+        <article class="project" data-category="42 tools">
+          <div class="project-top"><h3>push_swap</h3><span class="kind">c / algo</span></div>
+          <p>Sorting algorithm project using two stacks and a constrained instruction set.</p>
+          <div class="tags"><span class="tag">C</span><span class="tag">sorting</span><span class="tag">algorithms</span></div>
+          <a class="repo" href="https://github.com/jerem0010/push_swap" target="_blank" rel="noreferrer">repo</a>
+        </article>
+
+        <article class="project" data-category="42">
+          <div class="project-top"><h3>pipex</h3><span class="kind">c / unix</span></div>
+          <p>Recreation of shell pipe behavior with fork, execve, file descriptors and process chaining.</p>
+          <div class="tags"><span class="tag">C</span><span class="tag">pipes</span><span class="tag">unix</span></div>
+          <a class="repo" href="https://github.com/jerem0010/pipex" target="_blank" rel="noreferrer">repo</a>
+        </article>
+
+        <article class="project" data-category="ai tools">
+          <div class="project-top"><h3>Machine-Learning</h3><span class="kind">python</span></div>
+          <p>Older ML notebooks and exercises around regression, search algorithms and Python AI foundations.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">ML</span><span class="tag">notebooks</span></div>
+          <a class="repo" href="https://github.com/jerem0010/Machine-Learning" target="_blank" rel="noreferrer">repo</a>
+        </article>
       </div>
     </section>
 
-    <section id="projects">
-      <div class="container">
-        <div class="section-head">
-          <h2>Selected projects</h2>
-          <p>Compact proof of work: tools, labs, writeups, and experiments that show how I think.</p>
-        </div>
+    <section id="ctf-writeups" class="catalog view-hidden" data-view-panel="ctf-writeups">
+      <div class="section-head"><h2>CTF Writeups</h2></div>
+      <div class="filters" aria-label="CTF writeup filters">
+        <button class="filter active" type="button" data-filter="all">All</button>
+        <button class="filter" type="button" data-filter="cit2026">CTF@CIT 2026</button>
+        <button class="filter" type="button" data-filter="gpn2026">GPN CTF 2026</button>
+        <button class="filter" type="button" data-filter="defcon2026">DEF CON Quals 2026</button>
+        <button class="filter" type="button" data-filter="crypto">Crypto</button>
+      </div>
 
-        <div class="grid-2">
-          <article class="card project-card">
-            <div class="project-top">
-              <div>
-                <h3>evm-scan</h3>
-                <p>Rust CLI for inspecting EVM bytecode, extracting selectors, resolving signatures, and interacting with contracts through Foundry cast.</p>
-              </div>
-              <div class="project-links">
-                <a class="icon-link" href="https://github.com/jerem0010/evm-scan" target="_blank" rel="noreferrer" aria-label="evm-scan repository">↗</a>
-              </div>
-            </div>
-            <div class="tag-row">
-              <span class="tag">Rust</span>
-              <span class="tag">EVM</span>
-              <span class="tag">CLI</span>
-            </div>
-          </article>
+      <div class="project-grid">
+        <article class="project" data-category="cit2026 crypto rsa">
+          <div class="project-top"><h3>Baby Exponent</h3><span class="kind">CTF@CIT 2026</span></div>
+          <p>RSA challenge writeup around weak exponent reasoning, integer roots and modular arithmetic.</p>
+          <div class="tags"><span class="tag">Crypto</span><span class="tag">RSA</span><span class="tag">Python</span></div>
+          <a class="repo" href="https://github.com/jerem0010/ctf-writeups/tree/main/CTF%40CIT-2026/Crypto/Baby-Exponant" target="_blank" rel="noreferrer">folder</a>
+        </article>
 
-          <article class="card project-card">
-            <div class="project-top">
-              <div>
-                <h3>smart-contract-audit-agent</h3>
-                <p>Early audit tooling project combining Slither output, structured findings, and generated reports for vulnerable Solidity contracts.</p>
-              </div>
-              <div class="project-links">
-                <a class="icon-link" href="https://github.com/jerem0010/smart-contract-audit-agent" target="_blank" rel="noreferrer" aria-label="smart-contract-audit-agent repository">↗</a>
-              </div>
-            </div>
-            <div class="tag-row">
-              <span class="tag">Python</span>
-              <span class="tag">Slither</span>
-              <span class="tag">Audit tooling</span>
-            </div>
-          </article>
+        <article class="project" data-category="cit2026 crypto">
+          <div class="project-top"><h3>Brainiac</h3><span class="kind">CTF@CIT 2026</span></div>
+          <p>Crypto challenge folder with files, reasoning notes and solve path.</p>
+          <div class="tags"><span class="tag">Crypto</span><span class="tag">CTF@CIT</span></div>
+          <a class="repo" href="https://github.com/jerem0010/ctf-writeups/tree/main/CTF%40CIT-2026/Crypto/Brainiac" target="_blank" rel="noreferrer">folder</a>
+        </article>
 
-          <article class="card project-card">
-            <div class="project-top">
-              <div>
-                <h3>ctf-writeups</h3>
-                <p>Public writeups focused on cryptography challenges, with an emphasis on explaining the vulnerability and the solving path.</p>
-              </div>
-              <div class="project-links">
-                <a class="icon-link" href="https://github.com/jerem0010/ctf-writeups" target="_blank" rel="noreferrer" aria-label="ctf-writeups repository">↗</a>
-              </div>
-            </div>
-            <div class="tag-row">
-              <span class="tag">Crypto</span>
-              <span class="tag">CTF</span>
-              <span class="tag">Writeups</span>
-            </div>
-          </article>
+        <article class="project" data-category="cit2026 crypto classical">
+          <div class="project-top"><h3>The Onion</h3><span class="kind">CTF@CIT 2026</span></div>
+          <p>Layered crypto / encoding challenge solved step by step.</p>
+          <div class="tags"><span class="tag">Crypto</span><span class="tag">encoding</span></div>
+          <a class="repo" href="https://github.com/jerem0010/ctf-writeups/tree/main/CTF%40CIT-2026/Crypto/The-Onion" target="_blank" rel="noreferrer">folder</a>
+        </article>
 
-          <article class="card project-card">
-            <div class="project-top">
-              <div>
-                <h3>smart-contract-lab</h3>
-                <p>Solidity and Foundry lab covering common contract patterns, security pitfalls, proxy architecture, storage, and gas topics.</p>
-              </div>
-              <div class="project-links">
-                <a class="icon-link" href="https://github.com/jerem0010/smart-contract-lab" target="_blank" rel="noreferrer" aria-label="smart-contract-lab repository">↗</a>
-              </div>
-            </div>
-            <div class="tag-row">
-              <span class="tag">Solidity</span>
-              <span class="tag">Foundry</span>
-              <span class="tag">Security lab</span>
-            </div>
-          </article>
-        </div>
+        <article class="project" data-category="gpn2026 crypto">
+          <div class="project-top"><h3>COMpetition</h3><span class="kind">GPN CTF 2026</span></div>
+          <p>Commitment challenge around broken binding and protocol automation.</p>
+          <div class="tags"><span class="tag">Crypto</span><span class="tag">commitments</span></div>
+          <a class="repo" href="https://github.com/jerem0010/ctf-writeups/tree/main/GPN-CTF-2026/Crypto/COMpetition" target="_blank" rel="noreferrer">folder</a>
+        </article>
+
+        <article class="project" data-category="gpn2026 crypto ecdsa">
+          <div class="project-top"><h3>Easy DSA</h3><span class="kind">GPN CTF 2026</span></div>
+          <p>Digital signature notes around DSA/ECDSA-style nonce mistakes.</p>
+          <div class="tags"><span class="tag">Crypto</span><span class="tag">DSA</span><span class="tag">signatures</span></div>
+          <a class="repo" href="https://github.com/jerem0010/ctf-writeups/tree/main/GPN-CTF-2026/Crypto/Easy-DSA" target="_blank" rel="noreferrer">folder</a>
+        </article>
+
+        <article class="project" data-category="defcon2026 crypto">
+          <div class="project-top"><h3>DEF CON Qualifiers 2026</h3><span class="kind">folder</span></div>
+          <p>Entry point for DEF CON CTF Qualifiers notes and writeups.</p>
+          <div class="tags"><span class="tag">DEF CON</span><span class="tag">CTF</span></div>
+          <a class="repo" href="https://github.com/jerem0010/ctf-writeups/tree/main/DEF-CON-CTF-Qualifiers-2026" target="_blank" rel="noreferrer">folder</a>
+        </article>
       </div>
     </section>
 
-    <section id="proof">
-      <div class="container">
-        <div class="section-head">
-          <h2>Proof of work</h2>
-          <p>A few signals that matter more than buzzwords: shipped code, public notes, and hands-on security practice.</p>
-        </div>
+    <section id="educational" class="catalog view-hidden" data-view-panel="educational">
+      <div class="section-head"><h2>Educational</h2></div>
+      <div class="project-grid">
+        <article class="project">
+          <div class="project-top"><h3>smart-contract-lab</h3><span class="kind">solidity</span></div>
+          <p>Solidity lab for ERCs, proxies, storage layout, gas notes, access control and vulnerability patterns.</p>
+          <div class="tags"><span class="tag">Solidity</span><span class="tag">Foundry</span><span class="tag">patterns</span></div>
+          <a class="repo" href="https://github.com/jerem0010/smart-contract-lab" target="_blank" rel="noreferrer">repo</a>
+        </article>
 
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="time">2026</div>
-            <div>
-              <strong>Blockchain security portfolio</strong>
-              <p>Building public repositories around EVM inspection, audit tooling, Solidity labs, CTF writeups, and ZK experiments.</p>
-            </div>
-          </div>
+        <article class="project">
+          <div class="project-top"><h3>Ethernaut Wargames</h3><span class="kind">solidity</span></div>
+          <p>Solutions and notes for Ethernaut levels: fallback, delegatecall, ownership, reentrancy and EVM quirks.</p>
+          <div class="tags"><span class="tag">Ethernaut</span><span class="tag">Solidity</span><span class="tag">exploits</span></div>
+          <a class="repo" href="https://github.com/jerem0010/ethernaut_wargames" target="_blank" rel="noreferrer">repo</a>
+        </article>
 
-          <div class="timeline-item">
-            <div class="time">2025</div>
-            <div>
-              <strong>Solana and Ethereum hackathons</strong>
-              <p>Worked on DeFi prototypes, Solana programs, trading infrastructure, and security-oriented reviews in hackathon environments.</p>
-            </div>
-          </div>
+        <article class="project">
+          <div class="project-top"><h3>Damn Vulnerable DeFi</h3><span class="kind">defi</span></div>
+          <p>Planned space for DeFi attack exercises: flash loans, accounting bugs, oracles and governance attacks.</p>
+          <div class="tags"><span class="tag">DeFi</span><span class="tag">attacks</span><span class="tag">Foundry</span></div>
+          <a class="repo" href="https://github.com/jerem0010?tab=repositories" target="_blank" rel="noreferrer">soon</a>
+        </article>
 
-          <div class="timeline-item">
-            <div class="time">42 Paris</div>
-            <div>
-              <strong>Systems programming foundation</strong>
-              <p>C/C++, networking, parsers, Unix projects, algorithms, and low-level debugging as a base for protocol security.</p>
-            </div>
-          </div>
-        </div>
+        <article class="project">
+          <div class="project-top"><h3>Audit Attack Notes</h3><span class="kind">security</span></div>
+          <p>Personal notes for bug classes: access control, precision loss, oracle assumptions, upgrades and invariants.</p>
+          <div class="tags"><span class="tag">audit prep</span><span class="tag">bug classes</span><span class="tag">notes</span></div>
+          <a class="repo" href="https://github.com/jerem0010/smart-contract-lab" target="_blank" rel="noreferrer">repo</a>
+        </article>
+
+        <article class="project">
+          <div class="project-top"><h3>circom-foundations</h3><span class="kind">zk</span></div>
+          <p>Circom foundations: constraints, arithmetic circuits and how statements become provable computations.</p>
+          <div class="tags"><span class="tag">Circom</span><span class="tag">constraints</span><span class="tag">ZK</span></div>
+          <a class="repo" href="https://github.com/jerem0010/circom-foundations" target="_blank" rel="noreferrer">repo</a>
+        </article>
+
+        <article class="project">
+          <div class="project-top"><h3>circom_circuits</h3><span class="kind">circuits</span></div>
+          <p>Circuit exercises around commitments, Merkle proofs, range checks and common ZK circuit mistakes.</p>
+          <div class="tags"><span class="tag">Circom</span><span class="tag">Merkle</span><span class="tag">circuits</span></div>
+          <a class="repo" href="https://github.com/jerem0010/circom_circuits" target="_blank" rel="noreferrer">repo</a>
+        </article>
+
+        <article class="project">
+          <div class="project-top"><h3>my-spl-token</h3><span class="kind">solana</span></div>
+          <p>Solana SPL token learning project around minting, token accounts and Anchor basics.</p>
+          <div class="tags"><span class="tag">Solana</span><span class="tag">Rust</span><span class="tag">Anchor</span></div>
+          <a class="repo" href="https://github.com/jerem0010/my-spl-token" target="_blank" rel="noreferrer">repo</a>
+        </article>
+
+        <article class="project">
+          <div class="project-top"><h3>Noir / Aztec Experiments</h3><span class="kind">privacy</span></div>
+          <p>Experiments around nullifiers, commitments, membership proofs, private voting and DAO ideas.</p>
+          <div class="tags"><span class="tag">Noir</span><span class="tag">Aztec</span><span class="tag">privacy</span></div>
+          <a class="repo" href="https://github.com/jerem0010?tab=repositories" target="_blank" rel="noreferrer">soon</a>
+        </article>
       </div>
     </section>
 
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <h2>Stack</h2>
-          <p>Tools and topics I use or study regularly.</p>
-        </div>
+    <section id="hackathons">
+      <div class="section-head"><h2>Hackathons</h2></div>
+      <div class="project-grid">
+        <article class="project">
+          <div class="project-top"><h3>LCL AI Hackathon</h3><span class="kind">winner</span></div>
+          <p>AI assistant / chatbot project using Gemini and internal documentation. Focused on model behavior and answer quality.</p>
+          <div class="tags"><span class="tag">AI</span><span class="tag">Gemini</span><span class="tag">winner</span></div>
+          <a class="repo" href="https://github.com/jerem0010" target="_blank" rel="noreferrer">github</a>
+        </article>
 
-        <div class="skills">
-          <span class="skill">Solidity</span>
-          <span class="skill">Rust</span>
-          <span class="skill">Python</span>
-          <span class="skill">C</span>
-          <span class="skill">C++</span>
-          <span class="skill">Foundry</span>
-          <span class="skill">Slither</span>
-          <span class="skill">EVM</span>
-          <span class="skill">Solana</span>
-          <span class="skill">Noir</span>
-          <span class="skill">Circom</span>
-          <span class="skill">Cryptography</span>
-          <span class="skill">CTF</span>
-          <span class="skill">Linux</span>
-          <span class="skill">Git</span>
-        </div>
+        <article class="project">
+          <div class="project-top"><h3>FlexFi</h3><span class="kind">security lead</span></div>
+          <p>BNPL DeFi protocol on Solana. Smart contract review, security notes and collaboration with builders.</p>
+          <div class="tags"><span class="tag">Solana</span><span class="tag">DeFi</span><span class="tag">security</span></div>
+          <a class="repo" href="https://github.com/jerem0010" target="_blank" rel="noreferrer">github</a>
+        </article>
+
+        <article class="project">
+          <div class="project-top"><h3>Cypherpunk Hackathon</h3><span class="kind">full stack</span></div>
+          <p>On-chain rewards and benchmarking system with backend and smart contract integrations.</p>
+          <div class="tags"><span class="tag">Solana</span><span class="tag">backend</span><span class="tag">contracts</span></div>
+          <a class="repo" href="https://github.com/jerem0010" target="_blank" rel="noreferrer">github</a>
+        </article>
+
+        <article class="project">
+          <div class="project-top"><h3>ETHCC Hackathons</h3><span class="kind">ethereum</span></div>
+          <p>Ethereum-focused hackathon prototypes around DeFi, DEX ideas and fast product building.</p>
+          <div class="tags"><span class="tag">Ethereum</span><span class="tag">DeFi</span><span class="tag">prototype</span></div>
+          <a class="repo" href="https://github.com/jerem0010" target="_blank" rel="noreferrer">github</a>
+        </article>
       </div>
     </section>
 
-    <section id="contact">
-      <div class="container contact">
-        <div class="contact-grid">
-          <div>
-            <h2>Let’s talk security.</h2>
-            <p>
-              I am looking for opportunities around blockchain security, smart contract auditing,
-              cryptography, zero-knowledge systems, and applied research.
-            </p>
-          </div>
-
-          <div class="actions">
-            <a class="btn primary" href="mailto:jerem.lenezet@gmail.com">Email</a>
-            <a class="btn" href="https://github.com/jerem0010" target="_blank" rel="noreferrer">GitHub</a>
-            <a class="btn" href="https://www.linkedin.com/in/jeremy-le-nezet/" target="_blank" rel="noreferrer">LinkedIn</a>
-          </div>
-        </div>
+    <section id="achievements">
+      <div class="section-head"><h2>Achievements</h2></div>
+      <div class="achievement-list">
+        <div class="achievement"><strong>LCL AI Hackathon — Winner</strong><small>2024</small></div>
+        <div class="achievement"><strong>ETHCC — Volunteer / Team Lead</strong><small>2024 / 2025</small></div>
       </div>
     </section>
+
+    <section id="links">
+      <div class="section-head"><h2>Links</h2></div>
+      <div class="mini-links">
+        <a href="https://github.com/jerem0010" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/jeremy-le-nezet/" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href="./Jeremy_LENEZET_CV.pdf" target="_blank" rel="noreferrer">CV</a>
+        <a href="https://nodeguardians.io/character/jerem0010" target="_blank" rel="noreferrer">Node Guardians</a>
+        <a href="https://tryhackme.com/p/jerem.lenezet" target="_blank" rel="noreferrer">TryHackMe</a>
+        <a href="mailto:jerem.lenezet@gmail.com">Email</a>
+      </div>
+    </section>
+
+    <footer>
+      <p>© <span id="year"></span> @jerem0010 · built as a personal project index.</p>
+    </footer>
   </main>
 
-  <footer>
-    <div class="container">
-      © <span id="year"></span> Jeremy LE NEZET · Built as public proof of work.
-    </div>
-  </footer>
-
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+    const viewTabs = document.querySelectorAll(".view-tab");
+    const panels = document.querySelectorAll("[data-view-panel]");
+    const filters = document.querySelectorAll(".filter");
+    const year = document.querySelector("#year");
+
+    if (year) year.textContent = new Date().getFullYear();
+
+    function setView(view) {
+      viewTabs.forEach((tab) => {
+        const active = tab.dataset.view === view;
+        tab.classList.toggle("active", active);
+        tab.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+
+      panels.forEach((panel) => {
+        panel.classList.toggle("view-hidden", panel.dataset.viewPanel !== view);
+      });
+
+      const activePanel = document.querySelector(`[data-view-panel="${view}"]`);
+      if (activePanel) {
+        activePanel.querySelectorAll(".filter").forEach((filter) => {
+          filter.classList.toggle("active", filter.dataset.filter === "all");
+        });
+        activePanel.querySelectorAll(".project").forEach((card) => card.classList.remove("hidden"));
+      }
+    }
+
+    viewTabs.forEach((tab) => {
+      tab.addEventListener("click", () => setView(tab.dataset.view));
+    });
+
+    filters.forEach((filter) => {
+      filter.addEventListener("click", () => {
+        const section = filter.closest(".catalog");
+        const value = filter.dataset.filter;
+
+        section.querySelectorAll(".filter").forEach((item) => item.classList.remove("active"));
+        filter.classList.add("active");
+
+        section.querySelectorAll(".project").forEach((card) => {
+          const categories = (card.dataset.category || "").split(" ");
+          const visible = value === "all" || categories.includes(value);
+          card.classList.toggle("hidden", !visible);
+        });
+      });
+    });
   </script>
 </body>
 </html>
