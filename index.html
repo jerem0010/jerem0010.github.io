@@ -171,8 +171,29 @@
       border-top: 1px solid var(--line);
     }
 
-    .catalog { padding-top: 22px; }
-    .catalog.view-hidden { display: none; }
+    .catalog {
+      padding-top: 22px;
+      overflow: hidden;
+      max-height: 5000px;
+      opacity: 1;
+      transform: translateY(0);
+      transition:
+        max-height 280ms ease,
+        opacity 180ms ease,
+        transform 180ms ease,
+        padding 220ms ease,
+        border-color 220ms ease;
+    }
+
+    .catalog.view-hidden {
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-6px);
+      padding-top: 0;
+      padding-bottom: 0;
+      border-top-color: transparent;
+      pointer-events: none;
+    }
 
     .section-head {
       display: flex;
@@ -285,6 +306,72 @@
       font-weight: 650;
     }
 
+    .hackathon-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .hackathon-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-left: 2px solid rgba(199, 242, 132, 0.5);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.018);
+      transition: border-color 150ms ease, background 150ms ease, transform 150ms ease;
+    }
+
+    .hackathon-item:hover {
+      transform: translateY(-1px);
+      border-color: rgba(199, 242, 132, 0.34);
+      background: rgba(255,255,255,0.032);
+    }
+
+    .hackathon-main {
+      min-width: 0;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .hackathon-main strong {
+      font-size: 0.95rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hackathon-main small {
+      color: var(--faint);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .hackathon-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 29px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .hackathon-link:hover {
+      border-color: rgba(199, 242, 132, 0.45);
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
     .achievement-list {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -354,6 +441,9 @@
       .identity { align-items: flex-start; }
       .avatar { width: 52px; height: 52px; }
       .project-grid, .achievement-list { grid-template-columns: 1fr; }
+      .hackathon-item { grid-template-columns: 1fr; align-items: flex-start; }
+      .hackathon-top { align-items: flex-start; flex-direction: column; gap: 4px; }
+      .hackathon-link { width: fit-content; }
       .section-head { align-items: flex-start; flex-direction: column; }
       .jump-link { margin-left: 0; }
     }
@@ -380,90 +470,80 @@
       </div>
     </div>
 
-    <section id="projects" class="catalog" data-view-panel="projects">
+    <section id="projects" class="catalog" data-view-panel="projects" data-default-filter="security-tools">
       <div class="section-head"><h2>Projects</h2></div>
       <div class="filters" aria-label="Project filters">
-        <button class="filter active" type="button" data-filter="all">All</button>
-        <button class="filter" type="button" data-filter="security">Security</button>
-        <button class="filter" type="button" data-filter="tools">Tools</button>
-        <button class="filter" type="button" data-filter="ethereum">Ethereum</button>
-        <button class="filter" type="button" data-filter="zk">ZK</button>
+        <button class="filter" type="button" data-filter="all">All</button>
+        <button class="filter active" type="button" data-filter="security-tools">Security Tools</button>
         <button class="filter" type="button" data-filter="42">42</button>
         <button class="filter" type="button" data-filter="ai">AI</button>
       </div>
 
       <div class="project-grid">
-        <article class="project" data-category="security tools ethereum">
+        <article class="project" data-category="security-tools">
           <div class="project-top"><h3>evm-scan</h3><span class="kind">rust / evm</span></div>
           <p>Rust CLI for EVM bytecode inspection, selector extraction and contract interaction through Foundry tooling.</p>
           <div class="tags"><span class="tag">Rust</span><span class="tag">EVM</span><span class="tag">Foundry</span></div>
           <a class="repo" href="https://github.com/jerem0010/evm-scan" target="_blank" rel="noreferrer">repo</a>
         </article>
 
-        <article class="project" data-category="security tools ethereum ai">
+        <article class="project" data-category="security-tools ai">
           <div class="project-top"><h3>smart-contract-audit-agent</h3><span class="kind">python / audit</span></div>
           <p>Prototype for AI-assisted smart contract review: Slither output, structured findings and report generation.</p>
           <div class="tags"><span class="tag">Python</span><span class="tag">Solidity</span><span class="tag">Slither</span></div>
           <a class="repo" href="https://github.com/jerem0010/smart-contract-audit-agent" target="_blank" rel="noreferrer">repo</a>
         </article>
 
-        <article class="project" data-category="tools ethereum security">
+        <article class="project" data-category="security-tools">
           <div class="project-top"><h3>contract_scanner</h3><span class="kind">python / evm</span></div>
           <p>Small Python CLI for Ethereum contract inspection: balance, nonce, bytecode, selectors and 4byte resolution.</p>
           <div class="tags"><span class="tag">Python</span><span class="tag">EVM</span><span class="tag">CLI</span></div>
           <a class="repo" href="https://github.com/jerem0010/contract_scanner" target="_blank" rel="noreferrer">repo</a>
         </article>
 
-        <article class="project" data-category="zk ethereum security">
-          <div class="project-top"><h3>Private DAO experiments</h3><span class="kind">noir / aztec</span></div>
-          <p>Private governance experiments around commitments, nullifiers, Merkle membership and anonymous voting.</p>
-          <div class="tags"><span class="tag">Noir</span><span class="tag">Aztec</span><span class="tag">privacy</span></div>
-          <a class="repo" href="https://github.com/jerem0010" target="_blank" rel="noreferrer">github</a>
-        </article>
-
-        <article class="project" data-category="42">
+        <article class="project hidden" data-category="42">
           <div class="project-top"><h3>ft_irc</h3><span class="kind">c++ / tcp</span></div>
           <p>IRC server project: TCP sockets, parsing, channels, protocol state and event-driven architecture.</p>
           <div class="tags"><span class="tag">C++</span><span class="tag">TCP</span><span class="tag">poll</span></div>
           <a class="repo" href="https://github.com/jerem0010/ft_irc" target="_blank" rel="noreferrer">repo</a>
         </article>
 
-        <article class="project" data-category="42">
+        <article class="project hidden" data-category="42">
           <div class="project-top"><h3>cub3d</h3><span class="kind">c / graphics</span></div>
           <p>Raycasting engine with map parsing, movement, textures and low-level rendering practice.</p>
           <div class="tags"><span class="tag">C</span><span class="tag">raycasting</span><span class="tag">graphics</span></div>
           <a class="repo" href="https://github.com/jerem0010/cub3d" target="_blank" rel="noreferrer">repo</a>
         </article>
 
-        <article class="project" data-category="42">
+        <article class="project hidden" data-category="42">
           <div class="project-top"><h3>minishell</h3><span class="kind">c / unix</span></div>
           <p>Minimal Unix shell implementation: parsing, expansion, pipes, redirections, signals and process execution.</p>
           <div class="tags"><span class="tag">C</span><span class="tag">shell</span><span class="tag">processes</span></div>
           <a class="repo" href="https://github.com/jerem0010/minishell" target="_blank" rel="noreferrer">repo</a>
         </article>
 
-        <article class="project" data-category="42">
+        <article class="project hidden" data-category="42">
           <div class="project-top"><h3>fract-ol</h3><span class="kind">c / graphics</span></div>
           <p>Interactive fractal explorer for Mandelbrot and Julia sets with low-level graphics and event handling.</p>
           <div class="tags"><span class="tag">C</span><span class="tag">fractals</span><span class="tag">MLX</span></div>
           <a class="repo" href="https://github.com/jerem0010/fract-ol" target="_blank" rel="noreferrer">repo</a>
         </article>
 
-        <article class="project" data-category="42 tools">
+        <article class="project hidden" data-category="42">
           <div class="project-top"><h3>push_swap</h3><span class="kind">c / algo</span></div>
           <p>Sorting algorithm project using two stacks and a constrained instruction set.</p>
           <div class="tags"><span class="tag">C</span><span class="tag">sorting</span><span class="tag">algorithms</span></div>
           <a class="repo" href="https://github.com/jerem0010/push_swap" target="_blank" rel="noreferrer">repo</a>
         </article>
 
-        <article class="project" data-category="42">
+        <article class="project hidden" data-category="42">
           <div class="project-top"><h3>pipex</h3><span class="kind">c / unix</span></div>
           <p>Recreation of shell pipe behavior with fork, execve, file descriptors and process chaining.</p>
           <div class="tags"><span class="tag">C</span><span class="tag">pipes</span><span class="tag">unix</span></div>
           <a class="repo" href="https://github.com/jerem0010/pipex" target="_blank" rel="noreferrer">repo</a>
         </article>
 
-        <article class="project" data-category="ai tools">
+        <article class="project hidden" data-category="ai">
           <div class="project-top"><h3>Machine-Learning</h3><span class="kind">python</span></div>
           <p>Older ML notebooks and exercises around regression, search algorithms and Python AI foundations.</p>
           <div class="tags"><span class="tag">Python</span><span class="tag">ML</span><span class="tag">notebooks</span></div>
@@ -590,33 +670,27 @@
 
     <section id="hackathons">
       <div class="section-head"><h2>Hackathons</h2></div>
-      <div class="project-grid">
-        <article class="project">
-          <div class="project-top"><h3>LCL AI Hackathon</h3><span class="kind">winner</span></div>
-          <p>AI assistant / chatbot project using Gemini and internal documentation. Focused on model behavior and answer quality.</p>
-          <div class="tags"><span class="tag">AI</span><span class="tag">Gemini</span><span class="tag">winner</span></div>
-          <a class="repo" href="https://github.com/jerem0010" target="_blank" rel="noreferrer">github</a>
+      <div class="hackathon-list">
+        <article class="hackathon-item">
+          <div class="hackathon-main">
+            <strong>LCL AI Hackathon</strong>
+            <small>2024</small>
+          </div>
         </article>
 
-        <article class="project">
-          <div class="project-top"><h3>FlexFi</h3><span class="kind">security lead</span></div>
-          <p>BNPL DeFi protocol on Solana. Smart contract review, security notes and collaboration with builders.</p>
-          <div class="tags"><span class="tag">Solana</span><span class="tag">DeFi</span><span class="tag">security</span></div>
-          <a class="repo" href="https://github.com/jerem0010" target="_blank" rel="noreferrer">github</a>
+        <article class="hackathon-item">
+          <div class="hackathon-main">
+            <strong>Colosseum Breakout — FlexFi</strong>
+            <small>2025</small>
+          </div>
+          <a class="hackathon-link" href="https://github.com/flexfi-protocol" target="_blank" rel="noreferrer">flexfi</a>
         </article>
 
-        <article class="project">
-          <div class="project-top"><h3>Cypherpunk Hackathon</h3><span class="kind">full stack</span></div>
-          <p>On-chain rewards and benchmarking system with backend and smart contract integrations.</p>
-          <div class="tags"><span class="tag">Solana</span><span class="tag">backend</span><span class="tag">contracts</span></div>
-          <a class="repo" href="https://github.com/jerem0010" target="_blank" rel="noreferrer">github</a>
-        </article>
-
-        <article class="project">
-          <div class="project-top"><h3>ETHCC Hackathons</h3><span class="kind">ethereum</span></div>
-          <p>Ethereum-focused hackathon prototypes around DeFi, DEX ideas and fast product building.</p>
-          <div class="tags"><span class="tag">Ethereum</span><span class="tag">DeFi</span><span class="tag">prototype</span></div>
-          <a class="repo" href="https://github.com/jerem0010" target="_blank" rel="noreferrer">github</a>
+        <article class="hackathon-item">
+          <div class="hackathon-main">
+            <strong>Colosseum Cypherpunk — MineBench</strong>
+            <small>2025</small>
+          </div>
         </article>
       </div>
     </section>
@@ -633,8 +707,6 @@
       <div class="section-head"><h2>Links</h2></div>
       <div class="mini-links">
         <a href="https://github.com/jerem0010" target="_blank" rel="noreferrer">GitHub</a>
-        <a href="https://www.linkedin.com/in/jeremy-le-nezet/" target="_blank" rel="noreferrer">LinkedIn</a>
-        <a href="./Jeremy_LENEZET_CV.pdf" target="_blank" rel="noreferrer">CV</a>
         <a href="https://nodeguardians.io/character/jerem0010" target="_blank" rel="noreferrer">Node Guardians</a>
         <a href="https://tryhackme.com/p/jerem.lenezet" target="_blank" rel="noreferrer">TryHackMe</a>
         <a href="mailto:jerem.lenezet@gmail.com">Email</a>
@@ -654,7 +726,24 @@
 
     if (year) year.textContent = new Date().getFullYear();
 
+    function closeViews() {
+      viewTabs.forEach((tab) => {
+        tab.classList.remove("active");
+        tab.setAttribute("aria-pressed", "false");
+      });
+
+      panels.forEach((panel) => panel.classList.add("view-hidden"));
+    }
+
     function setView(view) {
+      const selectedTab = document.querySelector(`.view-tab[data-view="${view}"]`);
+      const shouldClose = selectedTab && selectedTab.classList.contains("active");
+
+      if (shouldClose) {
+        closeViews();
+        return;
+      }
+
       viewTabs.forEach((tab) => {
         const active = tab.dataset.view === view;
         tab.classList.toggle("active", active);
@@ -667,10 +756,15 @@
 
       const activePanel = document.querySelector(`[data-view-panel="${view}"]`);
       if (activePanel) {
+        const defaultFilter = activePanel.dataset.defaultFilter || "all";
         activePanel.querySelectorAll(".filter").forEach((filter) => {
-          filter.classList.toggle("active", filter.dataset.filter === "all");
+          filter.classList.toggle("active", filter.dataset.filter === defaultFilter);
         });
-        activePanel.querySelectorAll(".project").forEach((card) => card.classList.remove("hidden"));
+        activePanel.querySelectorAll(".project").forEach((card) => {
+          const categories = (card.dataset.category || "").split(" ");
+          const visible = defaultFilter === "all" || categories.includes(defaultFilter);
+          card.classList.toggle("hidden", !visible);
+        });
       }
     }
 
